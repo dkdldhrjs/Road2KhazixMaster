@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Road2KhazixMaster</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080b07;
+      color: #f4f7ef;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+    }
+
+    header {
+      padding: 28px 18px;
+      background:
+        radial-gradient(circle at top right, #392064, transparent 45%),
+        linear-gradient(135deg, #151d10, #0b0e09);
+      border-bottom: 1px solid #344127;
+    }
+
+    header p {
+      margin: 0 0 8px;
+      color: #baff54;
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header div {
+      margin-top: 10px;
+      color: #a9b29e;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    #search {
+      position: sticky;
+      top: 8px;
+      z-index: 10;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #3b492e;
+      border-radius: 14px;
+      outline: none;
+      background: #141b10;
+      color: white;
+      font-size: 16px;
+    }
+
+    #search:focus {
+      border-color: #baff54;
+    }
+
+    #champions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .champion {
+      min-height: 74px;
+      padding: 13px;
+      border: 1px solid #334027;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #171f12, #10150d);
+      color: white;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .champion.saved {
+      border-color: #8cc936;
+    }
+
+    .champion-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .champion-state {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: #252d20;
+      color: #9da796;
+      font-size: 12px;
+    }
+
+    .champion.saved .champion-state {
+      background: #263b18;
+      color: #baff54;
+    }
+
+    #empty {
+      display: none;
+      padding: 35px;
+      border: 1px dashed #3b492e;
+      border-radius: 15px;
+      color: #a9b29e;
+      text-align: center;
+    }
+
+    dialog {
+      width: calc(100% - 24px);
+      max-width: 600px;
+      padding: 0;
+      border: 1px solid #3b492e;
+      border-radius: 20px;
+      background: #121810;
+      color: white;
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px;
+      border-bottom: 1px solid #334027;
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .close {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #3b492e;
+      border-radius: 12px;
+      background: #20291a;
+      color: white;
+      font-size: 24px;
+    }
+
+    form {
+      padding: 17px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      color: #dce6d3;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    select,
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #3b492e;
+      border-radius: 12px;
+      outline: none;
+      background: #090d08;
+      color: white;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: #baff54;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .delete,
+    .save {
+      padding: 14px;
+      border-radius: 13px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .delete {
+      border: 1px solid #7e3538;
+      background: #38191b;
+      color: #ff969a;
+    }
+
+    .save {
+      border: none;
+      background: #baff54;
+      color: #12170d;
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 25px;
+      z-index: 100;
+      padding: 11px 16px;
+      border: 1px solid #779e3c;
+      border-radius: 30px;
+      background: #182112;
+      transform: translateX(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      opacity: 1;
+    }
+
+    @media (min-width: 700px) {
+      #champions {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <p>ROAD TO KHA'ZIX MASTER</p>
+    <h1>카직스 상대법 도감</h1>
+    <div>
+      상대 정글을 검색하고 난이도, 진화 순서, 템트리를 기록하세요.
+      작성 내용은 현재 브라우저에 자동 보관됩니다.
+    </div>
+  </header>
+
+  <main>
+    <input
+      id="search"
+      type="search"
+      placeholder="챔피언 검색"
+      autocomplete="off"
+    >
+
+    <section id="champions"></section>
+    <div id="empty">검색 결과가 없습니다.</div>
+  </main>
+
+  <dialog id="editor">
+    <div class="dialog-header">
+      <h2 id="selectedName">챔피언</h2>
+      <button id="closeButton" class="close" type="button">×</button>
+    </div>
+
+    <form id="form">
+      <label for="difficulty">난이도</label>
+      <select id="difficulty">
+        <option value="">미설정</option>
+        <option value="매우 쉬움">매우 쉬움</option>
+        <option value="쉬움">쉬움</option>
+        <option value="보통">보통</option>
+        <option value="어려움">어려움</option>
+        <option value="매우 어려움">매우 어려움</option>
+      </select>
+
+      <label for="evolution">진화 순서</label>
+      <input
+        id="evolution"
+        type="text"
+        placeholder="예: Q → W → E"
+      >
+
+      <label for="items">템트리</label>
+      <textarea
+        id="items"
+        placeholder="예: 요우무 → 밤의 끝자락 → 세릴다"
+      ></textarea>
+
+      <div class="buttons">
+        <button id="deleteButton" class="delete" type="button">
+          삭제
+        </button>
+
+        <button class="save" type="submit">
+          저장하기
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast"></div>
+
+  <script>
+    const champions = [
+      "그라가스",
+      "그레이브즈",
+      "그웬",
+      "나서스",
+      "나피리",
+      "녹턴",
+      "누누와 윌럼프",
+      "니달리",
+      "다이애나",
+      "람머스",
+      "렉사이",
+      "렝가",
+      "리 신",
+      "릴리아",
+      "마스터 이",
+      "마오카이",
+      "문도 박사",
+      "바이",
+      "벨베스",
+      "볼리베어",
+      "브라이어",
+      "비에고",
+      "사일러스",
+      "샤코",
+      "세주아니",
+      "쉔",
+      "쉬바나",
+      "스카너",
+      "신 짜오",
+      "아무무",
+      "아이번",
+      "아트록스",
+      "암베사",
+      "에코",
+      "엘리스",
+      "오공",
+      "우디르",
+      "워윅",
+      "이블린",
+      "자르반 4세",
+      "자크",
+      "잭스",
+      "초가스",
+      "카서스",
+      "카직스",
+      "케인",
+      "퀸",
+      "키아나",
+      "킨드레드",
+      "탈론",
+      "탈리야",
+      "트런들",
+      "피들스틱",
+      "헤카림"
+    ].sort((a, b) => a.localeCompare(b, "ko"));
+
+    const STORAGE_KEY = "road2khazixmaster-data";
+
+    const search = document.getElementById("search");
+    const championArea = document.getElementById("champions");
+    const empty = document.getElementById("empty");
+    const editor = document.getElementById("editor");
+    const form = document.getElementById("form");
+    const selectedName = document.getElementById("selectedName");
+    const difficulty = document.getElementById("difficulty");
+    const evolution = document.getElementById("evolution");
+    const items = document.getElementById("items");
+    const toast = document.getElementById("toast");
+
+    let selectedChampion = "";
+    let records = loadRecords();
+
+    function loadRecords() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveRecords() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    }
+
+    function hasRecord(name) {
+      const record = records[name];
+
+      if (!record) {
+        return false;
+      }
+
+      return Boolean(
+        record.difficulty ||
+        record.evolution ||
+        record.items
+      );
+    }
+
+    function render() {
+      const keyword = search.value.trim().toLowerCase();
+
+      const filtered = champions.filter(name =>
+        name.toLowerCase().includes(keyword)
+      );
+
+      championArea.innerHTML = "";
+      empty.style.display = filtered.length ? "none" : "block";
+
+      filtered.forEach(name => {
+        const button = document.createElement("button");
+        const record = records[name] || {};
+        const saved = hasRecord(name);
+
+        button.type = "button";
+        button.className = saved ? "champion saved" : "champion";
+
+        button.innerHTML = `
+          <div class="champion-name">${name}</div>
+          <span class="champion-state">
+            ${saved ? record.difficulty || "작성 완료" : "미작성"}
+          </span>
+        `;
+
+        button.addEventListener("click", () => openEditor(name));
+        championArea.appendChild(button);
+      });
+    }
+
+    function openEditor(name) {
+      selectedChampion = name;
+
+      const record = records[name] || {};
+
+      selectedName.textContent = name;
+      difficulty.value = record.difficulty || "";
+      evolution.value = record.evolution || "";
+      items.value = record.items || "";
+
+      editor.showModal();
+    }
+
+    function closeEditor() {
+      editor.close();
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1700);
+    }
+
+    search.addEventListener("input", render);
+
+    document
+      .getElementById("closeButton")
+      .addEventListener("click", closeEditor);
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      records[selectedChampion] = {
+        difficulty: difficulty.value,
+        evolution: evolution.value.trim(),
+        items: items.value.trim()
+      };
+
+      saveRecords();
+      render();
+      closeEditor();
+      showToast(selectedChampion + " 상대법을 저장했습니다.");
+    });
+
+    document
+      .getElementById("deleteButton")
+      .addEventListener("click", () => {
+        if (!records[selectedChampion]) {
+          showToast("삭제할 기록이 없습니다.");
+          return;
+        }
+
+        const confirmed = confirm(
+          selectedChampion + " 기록을 삭제할까요?"
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        delete records[selectedChampion];
+        saveRecords();
+        render();
+        closeEditor();
+        showToast("기록을 삭제했습니다.");
+      });
+
+    editor.addEventListener("click", event => {
+      const box = editor.getBoundingClientRect();
+
+      const outside =
+        event.clientX < box.left ||
+        event.clientX > box.right ||
+        event.clientY < box.top ||
+        event.clientY > box.bottom;
+
+      if (outside) {
+        closeEditor();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
