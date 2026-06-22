@@ -3,25 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#090c08" />
-  <title>Road2KhazixMaster</title>
+  <meta name="theme-color" content="#080b12" />
+  <title>Road2KhazixMaster · 카직스의 모든 것</title>
   <style>
     :root {
-      --bg: #080b07;
-      --panel: #11170d;
-      --panel-2: #171f12;
-      --panel-3: #1e2817;
-      --line: #334026;
-      --line-soft: rgba(185, 255, 79, 0.16);
-      --text: #f2f6ec;
-      --muted: #a7b29b;
+      --bg: #080b12;
+      --panel: #0f1420;
+      --panel-2: #141b29;
+      --panel-3: #192235;
+      --line: #283650;
+      --line-soft: rgba(77, 116, 255, .18);
+      --text: #f3f6ff;
+      --muted: #94a3bc;
+      --blue: #3f6bff;
+      --blue-2: #6d8dff;
+      --cyan: #33d6ff;
+      --purple: #9f70ff;
+      --green: #24d98b;
       --lime: #b9ff4f;
-      --lime-dark: #6ea81f;
-      --purple: #a679ff;
-      --danger: #ff6b70;
-      --warning: #ffc857;
-      --success: #7df29a;
-      --shadow: 0 16px 40px rgba(0, 0, 0, 0.34);
+      --red: #ff5f6d;
+      --orange: #ff9b55;
+      --yellow: #ffd75e;
+      --shadow: 0 20px 54px rgba(0, 0, 0, .34);
       --radius: 18px;
     }
 
@@ -32,362 +35,435 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(circle at 10% 0%, rgba(185, 255, 79, 0.11), transparent 30rem),
-        radial-gradient(circle at 90% 8%, rgba(166, 121, 255, 0.11), transparent 28rem),
+        radial-gradient(circle at 10% 0%, rgba(63, 107, 255, .13), transparent 34rem),
+        radial-gradient(circle at 90% 7%, rgba(159, 112, 255, .13), transparent 32rem),
         var(--bg);
       font-family: Pretendard, "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    button, input, textarea, select { font: inherit; }
+    button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
-    button:disabled { cursor: not-allowed; opacity: 0.55; }
-    a { color: inherit; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    img { display: block; }
+    [hidden] { display: none !important; }
 
-    .app { width: min(1180px, 100%); margin: 0 auto; padding: 18px 14px 54px; }
+    .app { width: min(1280px, 100%); margin: 0 auto; padding: 16px 14px 64px; }
 
     .hero {
       position: relative;
       overflow: hidden;
-      padding: 24px 20px;
-      border: 1px solid rgba(185, 255, 79, 0.18);
-      border-radius: 26px;
-      background: linear-gradient(130deg, rgba(185, 255, 79, 0.08), rgba(166, 121, 255, 0.08)), rgba(17, 23, 13, 0.94);
+      min-height: 280px;
+      border: 1px solid rgba(109, 141, 255, .23);
+      border-radius: 28px;
+      background:
+        linear-gradient(90deg, rgba(7, 10, 17, .96) 0%, rgba(7, 10, 17, .83) 48%, rgba(7, 10, 17, .3) 100%),
+        url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Khazix_0.jpg") center 28% / cover;
       box-shadow: var(--shadow);
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      right: -90px;
-      bottom: -120px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(185, 255, 79, 0.22), transparent 68%);
-      pointer-events: none;
-    }
+    .hero-inner { position: relative; z-index: 2; padding: 26px 24px; max-width: 820px; }
+    .hero-kicker { margin: 0 0 8px; color: var(--cyan); font-size: .79rem; font-weight: 900; letter-spacing: .18em; }
+    h1 { margin: 0; font-size: clamp(2rem, 7vw, 4rem); line-height: 1; }
+    .subtitle { margin: 14px 0 0; max-width: 720px; color: #c2cbe0; line-height: 1.7; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
 
-    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-    .eyebrow { margin: 0 0 8px; color: var(--lime); font-size: 0.82rem; font-weight: 850; letter-spacing: 0.14em; }
-    h1 { margin: 0; font-size: clamp(1.8rem, 6vw, 3.25rem); line-height: 1.08; }
-    .subtitle { margin: 12px 0 0; max-width: 760px; color: var(--muted); line-height: 1.65; }
-
-    .admin-button {
-      position: relative;
-      z-index: 1;
-      flex: 0 0 auto;
-      min-width: 112px;
-      padding: 11px 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      color: var(--text);
-      background: rgba(0, 0, 0, 0.24);
+    .primary-btn, .secondary-btn, .danger-btn, .ghost-btn, .admin-btn {
+      min-height: 44px;
+      padding: 10px 15px;
+      border-radius: 13px;
       font-weight: 850;
+      transition: transform .15s ease, filter .15s ease, border-color .15s ease;
     }
-    .admin-button.active { color: #10150b; border-color: var(--lime); background: var(--lime); }
+    .primary-btn { color: white; border: 1px solid var(--blue); background: linear-gradient(135deg, var(--blue), #3656d9); }
+    .secondary-btn { color: var(--text); border: 1px solid var(--line); background: var(--panel-2); }
+    .ghost-btn { color: var(--muted); border: 1px solid var(--line); background: rgba(0,0,0,.14); }
+    .danger-btn { color: white; border: 1px solid #bd3541; background: #7e2630; }
+    .admin-btn { color: var(--text); border: 1px solid rgba(255,255,255,.2); background: rgba(8,11,18,.76); }
+    .admin-btn.active { color: #09100a; border-color: var(--lime); background: var(--lime); }
+    .primary-btn:active, .secondary-btn:active, .danger-btn:active, .ghost-btn:active, .admin-btn:active { transform: scale(.98); }
 
-    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-    .stat { padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(0, 0, 0, 0.18); font-size: 0.86rem; }
-    .stat strong { color: var(--text); }
+    .hero-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+    .hero-stat { padding: 13px 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 15px; background: rgba(9,13,22,.7); backdrop-filter: blur(12px); }
+    .hero-stat span { display: block; color: #a7b3c9; font-size: .78rem; }
+    .hero-stat strong { display: block; margin-top: 3px; font-size: 1.26rem; }
 
-    .api-line { display: flex; align-items: center; gap: 8px; margin-top: 14px; color: var(--muted); font-size: 0.87rem; }
-    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--warning); box-shadow: 0 0 16px currentColor; }
-    .dot.ok { color: var(--success); background: var(--success); }
-    .dot.bad { color: var(--danger); background: var(--danger); }
+    .api-state { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; color: #c2cbe0; background: rgba(9,13,22,.7); font-size: .84rem; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 14px currentColor; }
+    .dot.ok { background: var(--green); }
+    .dot.bad { background: var(--red); }
 
-    .top-tabs {
+    .filter-bar {
       position: sticky;
       top: 0;
-      z-index: 40;
+      z-index: 35;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 9px;
       margin: 14px 0;
-      padding: 8px;
+      padding: 11px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(8, 11, 7, 0.89);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.24);
+      background: rgba(8,11,18,.9);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 34px rgba(0,0,0,.26);
     }
 
-    .tab-button { min-height: 46px; border: 1px solid transparent; border-radius: 13px; color: var(--muted); background: transparent; font-weight: 850; }
-    .tab-button.active { color: #11170d; background: var(--lime); }
-    .tab-panel[hidden] { display: none !important; }
+    .control { width: 100%; min-width: 0; padding: 11px 12px; color: var(--text); border: 1px solid var(--line); border-radius: 12px; outline: none; background: var(--panel); }
+    .control:focus { border-color: var(--blue-2); box-shadow: 0 0 0 3px rgba(63,107,255,.12); }
 
-    .toolbar, .panel {
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(17, 23, 13, 0.93);
-      box-shadow: var(--shadow);
+    .tabs {
+      display: flex;
+      gap: 7px;
+      margin: 0 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
     }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn { flex: 0 0 auto; padding: 10px 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 12px; background: var(--panel); font-weight: 850; }
+    .tab-btn.active { color: white; border-color: var(--blue); background: linear-gradient(135deg, rgba(63,107,255,.92), rgba(61,76,177,.92)); }
 
-    .search-wrap { display: flex; gap: 9px; }
-    .search, .control, textarea, select {
-      width: 100%;
-      min-width: 0;
-      padding: 13px 14px;
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      outline: none;
-      background: var(--panel-2);
-    }
-    .search:focus, .control:focus, textarea:focus, select:focus { border-color: var(--lime-dark); box-shadow: 0 0 0 3px rgba(185, 255, 79, 0.10); }
-    textarea { min-height: 98px; resize: vertical; line-height: 1.55; }
+    .section { margin-top: 18px; }
+    .section-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin: 0 2px 10px; }
+    .section-title h2 { margin: 0; font-size: clamp(1.16rem, 3vw, 1.52rem); }
+    .section-title p { margin: 0; color: var(--muted); font-size: .84rem; }
 
-    .filters { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; }
-    .filters::-webkit-scrollbar { display: none; }
-    .filter-btn { white-space: nowrap; padding: 9px 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; background: transparent; font-weight: 750; }
-    .filter-btn.active { color: #10150b; border-color: var(--lime); background: var(--lime); }
+    .panel { padding: 15px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(15,20,32,.94); box-shadow: 0 12px 34px rgba(0,0,0,.18); }
+    .panel + .panel { margin-top: 12px; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .panel-head h3 { margin: 0; font-size: 1rem; color: #dce4f8; }
+    .panel-head small { color: var(--muted); }
 
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin: 22px 2px 11px; }
-    .section-head h2 { margin: 0; font-size: 1.18rem; }
-    .section-head p { margin: 0; color: var(--muted); font-size: 0.87rem; text-align: right; }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 12px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
 
-    .champion-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .champ-card {
-      min-width: 0;
-      padding: 12px;
-      text-align: left;
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: linear-gradient(145deg, rgba(185, 255, 79, 0.025), transparent), var(--panel);
-      transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
-    }
-    .champ-card:hover { transform: translateY(-2px); border-color: rgba(185, 255, 79, 0.5); }
-    .champ-card.has-guide { border-color: rgba(185, 255, 79, 0.30); }
-    .card-main { display: flex; align-items: center; gap: 11px; }
-    .champ-img, .avatar-fallback { width: 52px; height: 52px; flex: 0 0 52px; border-radius: 14px; object-fit: cover; border: 1px solid rgba(255,255,255,0.09); background: #20291a; }
-    .avatar-fallback { display: grid; place-items: center; color: var(--lime); font-weight: 900; }
-    .champ-name { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 900; }
-    .champ-en { margin-top: 2px; color: var(--muted); font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .badge-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
-    .badge { display: inline-flex; align-items: center; min-height: 23px; padding: 3px 7px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(0, 0, 0, 0.16); font-size: 0.7rem; font-weight: 800; }
-    .badge.guide { color: #10150b; border-color: var(--lime); background: var(--lime); }
-    .badge.auto { color: #17111f; border-color: var(--purple); background: var(--purple); }
+    .metric-card { padding: 14px; border: 1px solid var(--line); border-radius: 15px; background: var(--panel-2); }
+    .metric-card span { display: block; color: var(--muted); font-size: .78rem; }
+    .metric-card strong { display: block; margin-top: 5px; font-size: 1.38rem; }
+    .metric-card em { display: block; margin-top: 4px; color: #8795af; font-size: .75rem; font-style: normal; }
+    .positive { color: var(--green) !important; }
+    .negative { color: var(--red) !important; }
+    .neutral { color: var(--text) !important; }
 
-    .empty { grid-column: 1 / -1; padding: 44px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 18px; background: rgba(17, 23, 13, 0.7); line-height: 1.7; }
+    .notice { padding: 13px 14px; border: 1px solid rgba(109,141,255,.28); border-radius: 14px; color: #cbd5eb; background: linear-gradient(135deg, rgba(63,107,255,.13), rgba(159,112,255,.08)); line-height: 1.6; font-size: .86rem; }
+    .notice strong { color: white; }
 
-    .match-toolbar { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-    .match-toolbar .wide { grid-column: 1 / -1; }
-    .primary-btn, .secondary-btn, .danger-btn {
-      min-height: 46px;
-      padding: 11px 14px;
-      border-radius: 13px;
-      font-weight: 850;
-      transition: transform 0.14s ease, filter 0.14s ease;
-    }
-    .primary-btn { color: #10150b; border: 1px solid var(--lime); background: var(--lime); }
-    .secondary-btn { color: var(--text); border: 1px solid var(--line); background: var(--panel-2); }
-    .danger-btn { color: white; border: 1px solid rgba(255, 107, 112, 0.55); background: rgba(255, 107, 112, 0.16); }
-    .primary-btn:active, .secondary-btn:active, .danger-btn:active { transform: scale(0.98); }
+    .auto-picks { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .auto-pick { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
+    .auto-pick > span { display: block; color: var(--muted); font-size: .75rem; }
+    .auto-pick > strong { display: block; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .match-list { display: grid; gap: 11px; }
-    .match-card { overflow: hidden; border: 1px solid var(--line); border-radius: 19px; background: var(--panel); box-shadow: 0 10px 28px rgba(0,0,0,.20); }
-    .match-card.win { border-left: 4px solid var(--success); }
-    .match-card.loss { border-left: 4px solid var(--danger); }
-    .match-head { display: flex; justify-content: space-between; gap: 12px; padding: 13px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.018); }
-    .match-title { min-width: 0; }
-    .match-title strong { display: block; font-size: 1rem; }
-    .match-title span { display: block; margin-top: 4px; color: var(--muted); font-size: 0.79rem; }
-    .result-pill { align-self: flex-start; padding: 6px 9px; border-radius: 999px; font-size: 0.76rem; font-weight: 900; }
-    .result-pill.win { color: #102017; background: var(--success); }
-    .result-pill.loss { color: white; background: var(--danger); }
-    .duel { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; padding: 14px; }
-    .duelist { min-width: 0; display: flex; align-items: center; gap: 9px; }
-    .duelist.right { flex-direction: row-reverse; text-align: right; }
-    .duelist img { width: 48px; height: 48px; border-radius: 13px; object-fit: cover; }
-    .player-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; color: var(--muted); }
-    .kda { margin-top: 3px; font-weight: 900; }
-    .versus { color: var(--muted); font-size: 0.75rem; font-weight: 900; }
-    .early-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 0 14px 14px; }
-    .early-box { padding: 10px 8px; text-align: center; border: 1px solid var(--line); border-radius: 12px; background: rgba(0,0,0,.14); }
-    .early-box b { display: block; font-size: .84rem; }
-    .early-box span { display: block; margin-top: 3px; color: var(--muted); font-size: .7rem; }
-    .match-details { display: none; padding: 0 14px 14px; }
-    .match-card.open .match-details { display: block; }
-    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    .detail-cell { padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); }
-    .detail-cell span { color: var(--muted); font-size: .72rem; }
-    .detail-cell strong { display: block; margin-top: 4px; font-size: .9rem; }
-    .item-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
-    .item-icon { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: #20251d; }
-    .expand-btn { width: calc(100% - 28px); margin: 0 14px 14px; min-height: 39px; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); background: transparent; font-weight: 800; }
+    .icon-row { display: flex; align-items: center; gap: 6px; min-width: 0; flex-wrap: wrap; }
+    .game-icon { width: 38px; height: 38px; flex: 0 0 38px; object-fit: cover; border: 1px solid rgba(255,255,255,.13); border-radius: 9px; background: #0a0d14; }
+    .game-icon.sm { width: 30px; height: 30px; flex-basis: 30px; border-radius: 7px; }
+    .game-icon.lg { width: 48px; height: 48px; flex-basis: 48px; border-radius: 11px; }
+    .icon-fallback { display: inline-grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); background: #0a0d14; font-size: .72rem; }
 
-    dialog { width: min(680px, calc(100% - 22px)); max-height: calc(100vh - 24px); padding: 0; color: var(--text); border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: 0 22px 80px rgba(0,0,0,.65); }
-    dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(4px); }
-    .modal-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 12px; padding: 15px; border-bottom: 1px solid var(--line); background: rgba(17, 23, 13, .96); }
+    .stat-list { display: grid; gap: 7px; }
+    .stat-row { display: grid; grid-template-columns: minmax(0,1fr) 68px 68px 70px; gap: 8px; align-items: center; min-height: 51px; padding: 8px 10px; border-radius: 10px; background: var(--panel-2); }
+    .stat-row:nth-child(even) { background: #121927; }
+    .stat-row .label { min-width: 0; }
+    .stat-row .label b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .9rem; }
+    .stat-row .label small { color: var(--muted); }
+    .stat-row .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .stat-row .num small { display: block; color: var(--muted); font-size: .68rem; }
+    .stat-row .num strong { display: block; margin-top: 2px; }
+
+    .icon-stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+    .icon-stat { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 9px; align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel-2); }
+    .icon-stat b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .84rem; }
+    .icon-stat small { color: var(--muted); font-size: .72rem; }
+    .icon-stat .rates { display: flex; gap: 8px; margin-top: 4px; font-size: .74rem; }
+
+    .skill-sequence { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+    .skill-arrow { color: var(--muted); font-size: .76rem; }
+    .skill-badge { position: relative; }
+    .skill-badge span { position: absolute; right: -3px; bottom: -3px; min-width: 17px; height: 17px; padding: 0 3px; display: grid; place-items: center; border-radius: 999px; color: white; background: #3049a9; font-size: .64rem; font-weight: 900; }
+
+    .role-block + .role-block { margin-top: 13px; }
+    .role-title { margin: 0 0 8px; color: var(--blue-2); font-size: .88rem; }
+    .synergy-scroll { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 190px); gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-color: #3e5180 transparent; }
+    .synergy-card { padding: 11px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel-2); }
+    .synergy-card .champ-line { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .synergy-card b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .synergy-card .mini-stats { display: flex; justify-content: space-between; margin-top: 8px; color: var(--muted); font-size: .72rem; }
+
+    .matchup-columns { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .matchup-column { padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    .matchup-column h3 { margin: 0 0 10px; color: var(--blue-2); font-size: .94rem; text-align: center; }
+    .matchup-row { display: grid; grid-template-columns: auto minmax(0,1fr) auto auto; gap: 9px; align-items: center; padding: 9px; border-radius: 10px; }
+    .matchup-row:nth-child(odd) { background: var(--panel-2); }
+    .matchup-row b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .matchup-row span { color: var(--muted); font-size: .76rem; }
+
+    .match-list { display: grid; gap: 12px; }
+    .match-card { overflow: hidden; border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 16px; background: var(--panel); }
+    .match-card.win { border-left-color: var(--green); }
+    .match-head { display: flex; justify-content: space-between; gap: 10px; padding: 13px 14px; background: var(--panel-2); }
+    .match-head strong { display: block; }
+    .match-head small { display: block; margin-top: 4px; color: var(--muted); }
+    .result-pill { align-self: flex-start; padding: 5px 9px; border-radius: 999px; color: white; background: #7a2530; font-size: .75rem; font-weight: 900; }
+    .result-pill.win { background: #157b51; }
+    .duel { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; padding: 13px 14px; }
+    .duelist { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .duelist.right { justify-content: flex-end; flex-direction: row-reverse; text-align: right; }
+    .duelist img { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); }
+    .duelist b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .duelist span { color: var(--muted); font-size: .78rem; }
+    .vs { color: var(--muted); font-weight: 900; }
+    .match-icon-block { padding: 0 14px 13px; }
+    .match-icon-line { display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; }
+    .match-icon-line > span { width: 80px; flex: 0 0 80px; color: var(--muted); font-size: .75rem; padding-top: 8px; }
+    .match-early { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; padding: 0 14px 13px; }
+    .early-box { padding: 10px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel-2); }
+    .early-box span { display: block; color: var(--muted); font-size: .7rem; }
+    .early-box b { display: block; margin-top: 4px; }
+
+    .guide-toolbar { display: grid; grid-template-columns: 1fr auto; gap: 9px; margin-bottom: 12px; }
+    .guide-filters { display: flex; gap: 7px; overflow-x: auto; margin-bottom: 12px; scrollbar-width: none; }
+    .guide-filter { flex: 0 0 auto; padding: 8px 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; background: transparent; font-weight: 800; }
+    .guide-filter.active { color: white; border-color: var(--blue); background: var(--blue); }
+    .champ-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+    .champ-card { display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; padding: 11px; color: var(--text); text-align: left; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    .champ-card.has-guide { border-color: rgba(185,255,79,.42); background: linear-gradient(135deg, rgba(185,255,79,.07), var(--panel)); }
+    .champ-card img { width: 46px; height: 46px; flex: 0 0 46px; object-fit: cover; border-radius: 12px; }
+    .champ-card .name { min-width: 0; }
+    .champ-card b, .champ-card small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .champ-card small { margin-top: 2px; color: var(--muted); }
+    .badge { display: inline-flex; margin-top: 5px; padding: 3px 7px; border-radius: 999px; color: var(--muted); background: rgba(255,255,255,.06); font-size: .66rem; font-weight: 850; }
+    .badge.saved { color: #0d1408; background: var(--lime); }
+
+    .empty { padding: 36px 18px; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: 15px; line-height: 1.7; }
+
+    dialog { width: min(760px, calc(100% - 20px)); max-height: calc(100vh - 24px); padding: 0; color: var(--text); border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); }
+    dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(5px); }
+    .modal-head { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; gap: 11px; padding: 13px 14px; border-bottom: 1px solid var(--line); background: rgba(15,20,32,.97); }
+    .modal-head img { width: 50px; height: 50px; border-radius: 13px; }
     .modal-title { min-width: 0; flex: 1; }
-    .modal-title h2 { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .modal-title p { margin: 4px 0 0; color: var(--muted); }
-    .close-btn { width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--panel-2); font-size: 1.4rem; }
-    .modal-body { padding: 15px; }
-    .form-grid { display: grid; gap: 12px; }
-    .field label { display: block; margin-bottom: 7px; color: var(--muted); font-size: .83rem; font-weight: 800; }
-    .guide-read { display: grid; gap: 11px; }
-    .read-block { padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-2); }
-    .read-block h3 { margin: 0 0 7px; color: var(--lime); font-size: .82rem; }
-    .read-block p { margin: 0; color: var(--text); white-space: pre-wrap; line-height: 1.62; }
-    .read-block p.empty-text { color: var(--muted); }
-    .form-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 15px; }
-    .admin-note { margin: 0 0 12px; padding: 10px 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 12px; background: rgba(0,0,0,.13); font-size: .82rem; line-height: 1.55; }
-    .login-form { display: grid; gap: 11px; }
-    .login-form input { width: 100%; padding: 13px 14px; color: var(--text); border: 1px solid var(--line); border-radius: 13px; background: var(--panel-2); }
-    .tiny-note { color: var(--muted); font-size: .76rem; line-height: 1.55; }
+    .modal-title h2, .modal-title p { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-title p { margin-top: 3px; color: var(--muted); font-size: .82rem; }
+    .close-btn { width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--panel-2); font-size: 1.35rem; }
+    .modal-body { padding: 15px; overflow-y: auto; }
+    .guide-section { padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel-2); }
+    .guide-section + .guide-section { margin-top: 9px; }
+    .guide-section h3 { margin: 0 0 8px; color: var(--blue-2); font-size: .88rem; }
+    .guide-section p { margin: 0; color: #d6def0; white-space: pre-wrap; line-height: 1.65; }
+    .form-grid { display: grid; grid-template-columns: 1fr; gap: 11px; }
+    .field label { display: block; margin-bottom: 6px; color: #b9c5da; font-size: .8rem; font-weight: 800; }
+    textarea.control { min-height: 100px; resize: vertical; line-height: 1.55; }
+    .field-note { margin: 5px 0 0; color: #7987a1; font-size: .7rem; }
+    .form-actions { display: flex; justify-content: space-between; gap: 9px; margin-top: 13px; }
+    .admin-note { margin: 0 0 11px; padding: 10px; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); background: rgba(0,0,0,.15); font-size: .78rem; line-height: 1.5; }
 
-    .toast { position: fixed; left: 50%; bottom: 24px; z-index: 100; max-width: calc(100% - 28px); padding: 11px 15px; color: #10150b; border-radius: 999px; background: var(--lime); box-shadow: var(--shadow); font-weight: 850; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; transition: .2s ease; }
-    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .footer { margin-top: 24px; padding: 16px; color: #77859f; border-top: 1px solid var(--line); font-size: .72rem; line-height: 1.65; text-align: center; }
+    .toast { position: fixed; left: 50%; bottom: 22px; z-index: 100; max-width: calc(100% - 24px); padding: 11px 14px; color: white; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: #263a7e; box-shadow: var(--shadow); transform: translate(-50%, 28px); opacity: 0; pointer-events: none; transition: .2s ease; font-weight: 850; text-align: center; }
+    .toast.show { transform: translate(-50%,0); opacity: 1; }
 
-    @media (min-width: 650px) {
-      .champion-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .match-toolbar { grid-template-columns: 1fr 1fr auto; }
-      .match-toolbar .wide { grid-column: auto; }
-      .detail-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .form-grid { grid-template-columns: 1fr 1fr; }
+    @media (min-width: 680px) {
+      .hero-stats { grid-template-columns: repeat(5,minmax(0,1fr)); }
+      .grid-2 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .grid-3 { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .grid-4 { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .auto-picks { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .icon-stat-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .matchup-columns { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .champ-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .match-early { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .form-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .field.full { grid-column: 1 / -1; }
     }
-    @media (min-width: 940px) { .champion-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-    @media (max-width: 520px) {
-      .hero-top { display: block; }
-      .admin-button { width: 100%; margin-top: 16px; }
-      .early-strip { grid-template-columns: 1fr; }
+
+    @media (min-width: 1000px) {
+      .icon-stat-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .champ-grid { grid-template-columns: repeat(5,minmax(0,1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .filter-bar { grid-template-columns: 1fr 1fr; }
+      .filter-bar .primary-btn { grid-column: 1 / -1; }
+      .stat-row { grid-template-columns: minmax(0,1fr) 58px 58px; }
+      .stat-row .num.pick { display: none; }
+      .icon-stat-grid { grid-template-columns: 1fr; }
       .duel { grid-template-columns: 1fr; }
-      .duelist.right { flex-direction: row; text-align: left; }
-      .versus { display: none; }
+      .duelist.right { justify-content: flex-start; flex-direction: row; text-align: left; }
+      .vs { display: none; }
+      .match-icon-line { display: block; }
+      .match-icon-line > span { display: block; width: auto; margin-bottom: 6px; padding: 0; }
     }
   </style>
 </head>
 <body>
   <main class="app">
     <section class="hero">
-      <div class="hero-top">
-        <div>
-          <p class="eyebrow">ROAD TO KHA'ZIX MASTER</p>
-          <h1>카직스 상대법 도감</h1>
-          <p class="subtitle">
-            천상계 카직스 경기 데이터를 자동으로 모으고, 상대별 공략은 관리자만 작성합니다.
-            방문자는 공략과 경기 기록을 자유롭게 읽을 수 있습니다.
-          </p>
+      <div class="hero-inner">
+        <p class="hero-kicker">ROAD2KHAZIXMASTER · KR HIGH ELO DATA</p>
+        <h1>카직스의 모든 것</h1>
+        <p class="subtitle">
+          한국 서버 마스터 이상 카직스의 룬, 아이템, 스킬, 초반 구도, 듀오 시너지,
+          상대 정글 통계와 실제 경기 기록을 한 화면에 모았습니다.
+        </p>
+        <div class="hero-actions">
+          <button id="adminButton" class="admin-btn" type="button">🔒 관리자</button>
+          <button id="collectHintButton" class="secondary-btn" type="button">수집 상태 보기</button>
         </div>
-        <button id="adminButton" class="admin-button" type="button">🔒 관리자</button>
+        <div class="hero-stats">
+          <div class="hero-stat"><span>분석한 전체 경기</span><strong id="processedCount">0</strong></div>
+          <div class="hero-stat"><span>카직스 경기</span><strong id="khazixCount">0</strong></div>
+          <div class="hero-stat"><span>분석 완성 경기</span><strong id="analysisCount">0</strong></div>
+          <div class="hero-stat"><span>카직스 승률</span><strong id="globalWinRate">0.0%</strong></div>
+          <div class="hero-stat"><span>데이터 커버리지</span><strong id="coverageRate">0.0%</strong></div>
+        </div>
+        <div class="api-state"><span id="apiDot" class="dot"></span><span id="apiText">API 연결 확인 중...</span></div>
       </div>
-      <div class="stats">
-        <span class="stat">수집 경기 <strong id="processedCount">0</strong></span>
-        <span class="stat">카직스 경기 <strong id="khazixCount">0</strong></span>
-        <span class="stat">상세 경기 <strong id="detailCount">0</strong></span>
-        <span class="stat">승률 <strong id="winRate">0.0%</strong></span>
-        <span class="stat">작성 공략 <strong id="guideCount">0</strong></span>
-      </div>
-      <div class="api-line"><span id="apiDot" class="dot"></span><span id="apiText">API 연결 확인 중...</span></div>
     </section>
 
-    <nav class="top-tabs" aria-label="주요 화면">
-      <button class="tab-button active" data-tab="guides" type="button">상대 공략</button>
-      <button class="tab-button" data-tab="matches" type="button">천상계 경기 기록</button>
+    <section class="filter-bar">
+      <select id="globalTier" class="control" aria-label="티어 필터">
+        <option value="ALL">마스터 이상 전체</option>
+        <option value="CHALLENGER">챌린저</option>
+        <option value="GRANDMASTER">그랜드마스터</option>
+        <option value="MASTER">마스터</option>
+      </select>
+      <select id="globalPatch" class="control" aria-label="패치 필터">
+        <option value="">전체 패치</option>
+      </select>
+      <button id="refreshButton" class="primary-btn" type="button">데이터 새로고침</button>
+    </section>
+
+    <nav class="tabs" aria-label="분석 카테고리">
+      <button class="tab-btn active" data-tab="overview" type="button">개요</button>
+      <button class="tab-btn" data-tab="runes" type="button">룬</button>
+      <button class="tab-btn" data-tab="items" type="button">아이템</button>
+      <button class="tab-btn" data-tab="skills" type="button">스킬</button>
+      <button class="tab-btn" data-tab="pathing" type="button">동선</button>
+      <button class="tab-btn" data-tab="synergy" type="button">시너지</button>
+      <button class="tab-btn" data-tab="matchups" type="button">상대</button>
+      <button class="tab-btn" data-tab="matches" type="button">경기</button>
+      <button class="tab-btn" data-tab="guides" type="button">공략</button>
     </nav>
 
-    <section id="guidesPanel" class="tab-panel">
-      <section class="toolbar">
-        <div class="search-wrap">
-          <input id="searchInput" class="search" type="search" autocomplete="off" placeholder="챔피언 검색: 리 신, Lee Sin..." />
-          <button id="refreshGuidesButton" class="secondary-btn" type="button">새로고침</button>
-        </div>
-        <div class="filters">
-          <button class="filter-btn active" data-filter="all" type="button">전체</button>
-          <button class="filter-btn" data-filter="written" type="button">공략 있음</button>
-          <button class="filter-btn" data-filter="stats" type="button">통계 있음</button>
-          <button class="filter-btn" data-filter="hard" type="button">어려운 상대</button>
-        </div>
+    <section id="overviewPanel" class="tab-panel">
+      <div id="sampleNotice" class="notice">데이터를 불러오는 중입니다.</div>
+      <section class="section">
+        <div class="section-title"><h2>핵심 지표</h2><p id="filterSummary">전체 데이터</p></div>
+        <div id="overviewMetrics" class="grid-4"></div>
       </section>
+      <section class="section">
+        <div class="section-title"><h2>천상계 자동 추천</h2><p>표본 수 우선 정렬</p></div>
+        <div id="autoPicks" class="auto-picks"></div>
+      </section>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>10분 평균 구도</h3><small>상대 정글 대비</small></div><div id="minute10Metrics" class="grid-4"></div></div>
+        <div class="panel"><div class="panel-head"><h3>15분 평균 구도</h3><small>상대 정글 대비</small></div><div id="minute15Metrics" class="grid-4"></div></div>
+      </section>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>주요 타이밍</h3><small>타임라인 평균</small></div><div id="timingMetrics" class="grid-4"></div></div>
+        <div class="panel"><div class="panel-head"><h3>수집 상태</h3><small>티어별 다음 순번</small></div><div id="collectorState" class="stat-list"></div></div>
+      </section>
+    </section>
 
-      <div class="section-head">
-        <h2>상대 정글 목록</h2>
-        <p id="resultCount">0명 표시 중</p>
-      </div>
-      <section id="championGrid" class="champion-grid" aria-live="polite"></section>
+    <section id="runesPanel" class="tab-panel" hidden>
+      <section class="section"><div class="section-title"><h2>핵심 룬 통계</h2><p>실제 픽률과 승률</p></div><div id="keystoneGrid" class="icon-stat-grid"></div></section>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>룬 조합 통계</h3><small>완성 페이지 조합</small></div><div id="runeComboList" class="stat-list"></div></div>
+        <div class="panel"><div class="panel-head"><h3>개별 룬 채택률</h3><small>보조 룬 포함</small></div><div id="runeStatGrid" class="icon-stat-grid"></div></div>
+      </section>
+    </section>
+
+    <section id="itemsPanel" class="tab-panel" hidden>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>3코어 조합</h3><small>완성 아이템 순서</small></div><div id="coreBuildList" class="stat-list"></div></div>
+        <div class="panel"><div class="panel-head"><h3>첫 코어</h3><small>가장 먼저 완성한 핵심 아이템</small></div><div id="firstItemGrid" class="icon-stat-grid"></div></div>
+      </section>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>시작 아이템</h3><small>게임 시작 2분 내 구매</small></div><div id="startingItemList" class="stat-list"></div></div>
+        <div class="panel"><div class="panel-head"><h3>신발 통계</h3><small>최종 인벤토리 기준</small></div><div id="bootGrid" class="icon-stat-grid"></div></div>
+      </section>
+      <section class="section"><div class="section-title"><h2>전체 아이템 채택률</h2><p>최종 인벤토리 기준</p></div><div id="itemStatGrid" class="icon-stat-grid"></div></section>
+    </section>
+
+    <section id="skillsPanel" class="tab-panel" hidden>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>스킬 마스터 순서</h3><small>Q/W/E 최대 레벨 도달 순서</small></div><div id="skillOrderList" class="stat-list"></div></div>
+        <div class="panel"><div class="panel-head"><h3>1~3레벨 스킬 순서</h3><small>첫 세 번의 스킬 투자</small></div><div id="earlySkillList" class="stat-list"></div></div>
+      </section>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>카직스 스킬</h3><small>실제 게임 아이콘</small></div><div id="khazixSkills" class="icon-stat-grid"></div></div>
+        <div class="panel"><div class="panel-head"><h3>진화 순서</h3><small>관리자 공략 기반</small></div><div id="evolutionGuide" class="notice"></div></div>
+      </section>
+    </section>
+
+    <section id="pathingPanel" class="tab-panel" hidden>
+      <section class="section grid-2">
+        <div class="panel"><div class="panel-head"><h3>첫 교전 위치</h3><small>첫 킬 관여 좌표 추정</small></div><div id="gankLaneList" class="stat-list"></div></div>
+        <div class="panel"><div class="panel-head"><h3>초반 타이밍</h3><small>첫 구매, 첫 교전, 6레벨</small></div><div id="pathTimingGrid" class="grid-4"></div></div>
+      </section>
+      <section class="section"><div class="panel"><div class="panel-head"><h3>데이터 해석</h3><small>정확도 안내</small></div><div class="notice">정글 동선은 3·5·7·10분 위치와 첫 교전 위치를 바탕으로 추정합니다. 정확한 캠프 처치 순서는 Match-V5에 직접 제공되지 않으므로, 관리자 공략과 실제 경기 기록을 함께 확인하는 방식이 가장 안전합니다.</div></div></section>
+    </section>
+
+    <section id="synergyPanel" class="tab-panel" hidden>
+      <section class="section"><div class="section-title"><h2>듀오 시너지</h2><p>같은 팀 챔피언과의 승률</p></div><div id="synergyByRole"></div></section>
+    </section>
+
+    <section id="matchupsPanel" class="tab-panel" hidden>
+      <section class="section"><div class="section-title"><h2>카직스 상대 챔피언</h2><p>최소 1경기, 표본 수 표시</p></div><div class="matchup-columns"><div class="matchup-column"><h3>상대하기 어려움</h3><div id="hardMatchups"></div></div><div class="matchup-column"><h3>상대하기 쉬움</h3><div id="easyMatchups"></div></div></div></section>
     </section>
 
     <section id="matchesPanel" class="tab-panel" hidden>
       <section class="panel">
-        <div class="match-toolbar">
-          <select id="matchTier" class="control" aria-label="티어 선택">
-            <option value="ALL">전체 티어</option>
-            <option value="CHALLENGER">챌린저</option>
-            <option value="GRANDMASTER">그랜드마스터</option>
-            <option value="MASTER">마스터</option>
-          </select>
-          <input id="matchOpponent" class="control" placeholder="상대 챔피언 영문명, 예: LeeSin" />
-          <button id="refreshMatchesButton" class="primary-btn wide" type="button">경기 불러오기</button>
+        <div class="grid-3">
+          <select id="matchTier" class="control"><option value="ALL">전체 티어</option><option value="CHALLENGER">챌린저</option><option value="GRANDMASTER">그랜드마스터</option><option value="MASTER">마스터</option></select>
+          <input id="matchOpponent" class="control" placeholder="상대 챔피언: LeeSin" />
+          <button id="loadMatchesButton" class="primary-btn" type="button">경기 불러오기</button>
         </div>
       </section>
-
-      <div class="section-head">
-        <h2>최근 천상계 카직스 경기</h2>
-        <p id="matchResultCount">0경기</p>
-      </div>
-      <section id="matchList" class="match-list" aria-live="polite"></section>
+      <section class="section"><div class="section-title"><h2>최근 천상계 카직스 경기</h2><p id="matchCount">0경기</p></div><div id="matchList" class="match-list"></div></section>
     </section>
+
+    <section id="guidesPanel" class="tab-panel" hidden>
+      <section class="guide-toolbar"><input id="guideSearch" class="control" placeholder="상대 정글 검색" /><button id="reloadGuidesButton" class="secondary-btn" type="button">새로고침</button></section>
+      <div class="guide-filters"><button class="guide-filter active" data-guide-filter="all" type="button">전체</button><button class="guide-filter" data-guide-filter="written" type="button">공략 있음</button><button class="guide-filter" data-guide-filter="stats" type="button">통계 있음</button><button class="guide-filter" data-guide-filter="hard" type="button">어려운 상대</button></div>
+      <div class="section-title"><h2>상대 정글 공략</h2><p id="guideResultCount">0명</p></div>
+      <div id="championGrid" class="champ-grid"></div>
+    </section>
+
+    <footer class="footer">
+      Road2KhazixMaster isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+    </footer>
   </main>
 
   <dialog id="guideDialog">
-    <div class="modal-head">
-      <div id="guideAvatar"></div>
-      <div class="modal-title">
-        <h2 id="guideName">챔피언</h2>
-        <p id="guideEnglish">Champion</p>
-      </div>
-      <button id="closeGuideButton" class="close-btn" type="button" aria-label="닫기">×</button>
-    </div>
-
-    <div id="guideReadView" class="modal-body guide-read"></div>
-
+    <div class="modal-head"><div id="guideAvatar"></div><div class="modal-title"><h2 id="guideName">챔피언</h2><p id="guideEnglish">Champion</p></div><button id="closeGuideButton" class="close-btn" type="button">×</button></div>
+    <div id="guideReadView" class="modal-body"></div>
     <form id="guideForm" class="modal-body" hidden>
-      <p class="admin-note">관리자 모드입니다. 저장 내용은 D1에 기록되어 모든 방문자에게 동일하게 보입니다.</p>
+      <p class="admin-note">아이템, 룬, 주문 ID를 쉼표로 입력하면 실제 게임 아이콘으로 표시됩니다. 자동 추천 버튼은 해당 상대의 천상계 표본을 불러옵니다.</p>
+      <button id="fillAutoGuideButton" class="secondary-btn" type="button" style="width:100%;margin-bottom:12px">천상계 데이터로 자동 추천 채우기</button>
       <div class="form-grid">
-        <div class="field">
-          <label for="difficulty">상대 난이도</label>
-          <select id="difficulty">
-            <option value="">미설정</option>
-            <option value="매우 쉬움">매우 쉬움</option>
-            <option value="쉬움">쉬움</option>
-            <option value="보통">보통</option>
-            <option value="어려움">어려움</option>
-            <option value="매우 어려움">매우 어려움</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="evolution">추천 진화 순서</label>
-          <input id="evolution" class="control" placeholder="예: Q → W → E" />
-        </div>
-        <div class="field full"><label for="items">추천 템트리</label><textarea id="items" placeholder="예: 요우무 → 밤의 끝자락 → 세릴다"></textarea></div>
-        <div class="field full"><label for="runes">추천 룬과 주문</label><textarea id="runes" placeholder="예: 선제공격, 점멸 + 강타"></textarea></div>
-        <div class="field full"><label for="pathing">초반 동선과 첫 교전</label><textarea id="pathing" placeholder="첫 캠프, 풀캠 여부, 바위게와 역갱 타이밍"></textarea></div>
-        <div class="field full"><label for="dangerSkills">주의할 핵심 스킬</label><textarea id="dangerSkills" placeholder="피해야 할 스킬과 상대 생존기"></textarea></div>
-        <div class="field full"><label for="earlyGame">초반 상대법</label><textarea id="earlyGame" placeholder="침입 조건, 고립을 만드는 방법"></textarea></div>
-        <div class="field full"><label for="midLateGame">중후반 및 한타 상대법</label><textarea id="midLateGame" placeholder="시야 장악, 암살 목표와 진입 타이밍"></textarea></div>
-        <div class="field full"><label for="notes">추가 메모</label><textarea id="notes" placeholder="직접 플레이하며 발견한 팁"></textarea></div>
+        <div class="field"><label for="difficulty">관리자 난이도</label><select id="difficulty" class="control"><option value="">미설정</option><option>매우 쉬움</option><option>쉬움</option><option>보통</option><option>어려움</option><option>매우 어려움</option></select></div>
+        <div class="field"><label for="evolution">추천 진화 순서</label><input id="evolution" class="control" placeholder="Q → W → E" /></div>
+        <div class="field full"><label for="itemIds">추천 아이템 ID</label><input id="itemIds" class="control" placeholder="3142, 6694,  serylda ID..." /><p class="field-note">Data Dragon 아이템 ID를 쉼표로 구분</p></div>
+        <div class="field full"><label for="runeIds">추천 룬 ID</label><input id="runeIds" class="control" placeholder="8369, 8304, ..." /></div>
+        <div class="field full"><label for="spellIds">추천 주문 ID</label><input id="spellIds" class="control" placeholder="4, 11" /></div>
+        <div class="field full"><label for="pathing">초반 동선과 첫 교전</label><textarea id="pathing" class="control"></textarea></div>
+        <div class="field full"><label for="dangerSkills">주의할 핵심 스킬</label><textarea id="dangerSkills" class="control"></textarea></div>
+        <div class="field full"><label for="earlyGame">초반 상대법</label><textarea id="earlyGame" class="control"></textarea></div>
+        <div class="field full"><label for="midLateGame">중후반 및 한타 상대법</label><textarea id="midLateGame" class="control"></textarea></div>
+        <div class="field full"><label for="notes">추가 메모</label><textarea id="notes" class="control"></textarea></div>
       </div>
-      <div class="form-actions">
-        <button id="deleteGuideButton" class="danger-btn" type="button">공략 삭제</button>
-        <button class="primary-btn" type="submit">공략 저장</button>
-      </div>
+      <div class="form-actions"><button id="deleteGuideButton" class="danger-btn" type="button">공략 삭제</button><button class="primary-btn" type="submit">공략 저장</button></div>
     </form>
   </dialog>
 
   <dialog id="adminDialog">
-    <div class="modal-head">
-      <div class="modal-title"><h2>관리자 인증</h2><p>ADMIN_TOKEN은 이 탭의 세션에만 저장됩니다.</p></div>
-      <button id="closeAdminButton" class="close-btn" type="button">×</button>
-    </div>
-    <form id="adminForm" class="modal-body login-form">
-      <input id="adminTokenInput" type="password" autocomplete="current-password" placeholder="ADMIN_TOKEN 입력" required />
-      <button class="primary-btn" type="submit">관리자 로그인</button>
-      <button id="adminLogoutButton" class="secondary-btn" type="button" hidden>관리자 로그아웃</button>
-      <p class="tiny-note">토큰은 GitHub 코드나 주소에 넣지 않습니다. Authorization 헤더로만 Worker에 전달됩니다.</p>
-    </form>
+    <div class="modal-head"><div class="modal-title"><h2>관리자 인증</h2><p>ADMIN_TOKEN은 현재 탭에만 저장됩니다.</p></div><button id="closeAdminButton" class="close-btn" type="button">×</button></div>
+    <form id="adminForm" class="modal-body"><input id="adminTokenInput" class="control" type="password" autocomplete="current-password" placeholder="ADMIN_TOKEN" required /><div class="form-actions"><button id="adminLogoutButton" class="secondary-btn" type="button" hidden>로그아웃</button><button class="primary-btn" type="submit">로그인</button></div></form>
+  </dialog>
+
+  <dialog id="collectorDialog">
+    <div class="modal-head"><div class="modal-title"><h2>자동 수집 상태</h2><p>Cloudflare Cron과 티어별 진행 상황</p></div><button id="closeCollectorButton" class="close-btn" type="button">×</button></div>
+    <div class="modal-body"><div class="notice">Cron Trigger를 <strong>*/2 * * * *</strong>로 설정하면 2분마다 실행되고, 챌린저 → 그랜드마스터 → 마스터 순서로 반복됩니다. 카직스 경기가 없는 묶음에서는 카직스 경기 수가 그대로일 수 있습니다.</div><div id="collectorDialogState" class="stat-list" style="margin-top:12px"></div></div>
   </dialog>
 
   <div id="toast" class="toast" role="status"></div>
@@ -396,378 +472,542 @@
     "use strict";
 
     const API_BASE = "https://road2khazix-api.sungjaekim1355.workers.dev";
-    const DDRAGON_VERSION = "16.12.1";
+    const FALLBACK_DDRAGON_VERSION = "16.12.1";
     const ADMIN_SESSION_KEY = "road2khazix_admin_token";
 
-    const baseChampions = [
-      { ko: "람머스", en: "Rammus", id: "Rammus" }, { ko: "렉사이", en: "Rek'Sai", id: "RekSai" },
-      { ko: "문도 박사", en: "Dr. Mundo", id: "DrMundo" }, { ko: "나서스", en: "Nasus", id: "Nasus" },
-      { ko: "탈론", en: "Talon", id: "Talon" }, { ko: "쉬바나", en: "Shyvana", id: "Shyvana" },
-      { ko: "아무무", en: "Amumu", id: "Amumu" }, { ko: "킨드레드", en: "Kindred", id: "Kindred" },
-      { ko: "워윅", en: "Warwick", id: "Warwick" }, { ko: "트런들", en: "Trundle", id: "Trundle" },
-      { ko: "초가스", en: "Cho'Gath", id: "Chogath" }, { ko: "케인", en: "Kayn", id: "Kayn" },
-      { ko: "잭스", en: "Jax", id: "Jax" }, { ko: "다이애나", en: "Diana", id: "Diana" },
-      { ko: "브라이어", en: "Briar", id: "Briar" }, { ko: "오공", en: "Wukong", id: "MonkeyKing" },
-      { ko: "피들스틱", en: "Fiddlesticks", id: "Fiddlesticks" }, { ko: "자르반 4세", en: "Jarvan IV", id: "JarvanIV" },
-      { ko: "그레이브즈", en: "Graves", id: "Graves" }, { ko: "릴리아", en: "Lillia", id: "Lillia" },
-      { ko: "사일러스", en: "Sylas", id: "Sylas" }, { ko: "볼리베어", en: "Volibear", id: "Volibear" },
-      { ko: "녹턴", en: "Nocturne", id: "Nocturne" }, { ko: "비에고", en: "Viego", id: "Viego" },
-      { ko: "아이번", en: "Ivern", id: "Ivern" }, { ko: "마스터 이", en: "Master Yi", id: "MasterYi" },
-      { ko: "카서스", en: "Karthus", id: "Karthus" }, { ko: "이블린", en: "Evelynn", id: "Evelynn" },
-      { ko: "신 짜오", en: "Xin Zhao", id: "XinZhao" }, { ko: "샤코", en: "Shaco", id: "Shaco" },
-      { ko: "아트록스", en: "Aatrox", id: "Aatrox" }, { ko: "벨베스", en: "Bel'Veth", id: "Belveth" },
-      { ko: "세주아니", en: "Sejuani", id: "Sejuani" }, { ko: "에코", en: "Ekko", id: "Ekko" },
-      { ko: "누누와 윌럼프", en: "Nunu & Willump", id: "Nunu" }, { ko: "스카너", en: "Skarner", id: "Skarner" },
-      { ko: "엘리스", en: "Elise", id: "Elise" }, { ko: "우디르", en: "Udyr", id: "Udyr" },
-      { ko: "암베사", en: "Ambessa", id: "Ambessa" }, { ko: "바이", en: "Vi", id: "Vi" },
-      { ko: "렝가", en: "Rengar", id: "Rengar" }, { ko: "자크", en: "Zac", id: "Zac" },
-      { ko: "리 신", en: "Lee Sin", id: "LeeSin" }, { ko: "키아나", en: "Qiyana", id: "Qiyana" },
-      { ko: "카직스", en: "Kha'Zix", id: "Khazix" }, { ko: "그웬", en: "Gwen", id: "Gwen" },
-      { ko: "그라가스", en: "Gragas", id: "Gragas" }, { ko: "헤카림", en: "Hecarim", id: "Hecarim" },
-      { ko: "퀸", en: "Quinn", id: "Quinn" }, { ko: "나피리", en: "Naafiri", id: "Naafiri" },
-      { ko: "쉔", en: "Shen", id: "Shen" }, { ko: "탈리야", en: "Taliyah", id: "Taliyah" },
-      { ko: "마오카이", en: "Maokai", id: "Maokai" }, { ko: "니달리", en: "Nidalee", id: "Nidalee" }
+    const JUNGLE_IDS = [
+      "Amumu","Belveth","Briar","Diana","DrMundo","Ekko","Elise","Evelynn","Fiddlesticks","Gragas","Graves","Gwen","Hecarim","Ivern","JarvanIV","Jax","Karthus","Kayn","Khazix","Kindred","LeeSin","Lillia","MasterYi","MonkeyKing","Naafiri","Nidalee","Nocturne","Nunu","Qiyana","Rammus","RekSai","Rengar","Sejuani","Shaco","Shen","Shyvana","Skarner","Sylas","Taliyah","Talon","Trundle","Udyr","Vi","Viego","Volibear","Warwick","XinZhao","Zac"
     ];
 
-    const guideFields = ["items", "runes", "pathing", "dangerSkills", "earlyGame", "midLateGame", "notes"];
+    const POSITION_NAMES = { TOP: "탑", JUNGLE: "정글", MIDDLE: "미드", UTILITY: "서포터", BOTTOM: "원딜", UNKNOWN: "기타" };
+    const SKILL_LETTERS = { 1: "Q", 2: "W", 3: "E", 4: "R" };
+
     const state = {
-      guides: new Map(), stats: new Map(), status: null, matches: [], currentChampion: null,
-      query: "", filter: "all", adminToken: sessionStorage.getItem(ADMIN_SESSION_KEY) || "", isAdmin: false
+      version: FALLBACK_DDRAGON_VERSION,
+      items: new Map(),
+      spells: new Map(),
+      runes: new Map(),
+      champions: new Map(),
+      khazixSpells: [],
+      status: null,
+      analytics: null,
+      stats: null,
+      guides: new Map(),
+      matches: [],
+      tier: "ALL",
+      patch: "",
+      guideQuery: "",
+      guideFilter: "all",
+      adminToken: sessionStorage.getItem(ADMIN_SESSION_KEY) || "",
+      isAdmin: false,
+      currentChampion: null
     };
 
     const els = {
-      processedCount: document.getElementById("processedCount"), khazixCount: document.getElementById("khazixCount"),
-      detailCount: document.getElementById("detailCount"), winRate: document.getElementById("winRate"),
-      guideCount: document.getElementById("guideCount"), apiDot: document.getElementById("apiDot"), apiText: document.getElementById("apiText"),
-      adminButton: document.getElementById("adminButton"), search: document.getElementById("searchInput"),
-      grid: document.getElementById("championGrid"), resultCount: document.getElementById("resultCount"),
-      matchList: document.getElementById("matchList"), matchResultCount: document.getElementById("matchResultCount"),
-      matchTier: document.getElementById("matchTier"), matchOpponent: document.getElementById("matchOpponent"),
-      guideDialog: document.getElementById("guideDialog"), guideAvatar: document.getElementById("guideAvatar"),
-      guideName: document.getElementById("guideName"), guideEnglish: document.getElementById("guideEnglish"),
-      guideReadView: document.getElementById("guideReadView"), guideForm: document.getElementById("guideForm"),
-      adminDialog: document.getElementById("adminDialog"), adminForm: document.getElementById("adminForm"),
-      adminTokenInput: document.getElementById("adminTokenInput"), adminLogoutButton: document.getElementById("adminLogoutButton"),
+      processedCount: document.getElementById("processedCount"),
+      khazixCount: document.getElementById("khazixCount"),
+      analysisCount: document.getElementById("analysisCount"),
+      globalWinRate: document.getElementById("globalWinRate"),
+      coverageRate: document.getElementById("coverageRate"),
+      apiDot: document.getElementById("apiDot"),
+      apiText: document.getElementById("apiText"),
+      tier: document.getElementById("globalTier"),
+      patch: document.getElementById("globalPatch"),
+      adminButton: document.getElementById("adminButton"),
+      guideDialog: document.getElementById("guideDialog"),
+      guideForm: document.getElementById("guideForm"),
+      guideReadView: document.getElementById("guideReadView"),
+      guideAvatar: document.getElementById("guideAvatar"),
+      guideName: document.getElementById("guideName"),
+      guideEnglish: document.getElementById("guideEnglish"),
+      adminDialog: document.getElementById("adminDialog"),
+      adminTokenInput: document.getElementById("adminTokenInput"),
+      adminLogoutButton: document.getElementById("adminLogoutButton"),
+      collectorDialog: document.getElementById("collectorDialog"),
       toast: document.getElementById("toast")
     };
 
-    function normalize(value) { return String(value || "").toLowerCase().replace(/[^a-z0-9가-힣]/g, ""); }
-    function imageUrl(id) { return `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/champion/${id}.png`; }
-    function itemUrl(id) { return `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/item/${id}.png`; }
-    function escapeHTML(value) { return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
-    function signed(value) { const number = Number(value || 0); return `${number > 0 ? "+" : ""}${number.toLocaleString("ko-KR")}`; }
-    function formatDuration(seconds) { const total = Math.max(0, Number(seconds || 0)); return `${Math.floor(total / 60)}분 ${String(total % 60).padStart(2, "0")}초`; }
-    function formatDate(timestamp) { if (!timestamp) return "날짜 없음"; try { return new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(Number(timestamp))); } catch { return "날짜 없음"; } }
-
-    function findChampion(value) {
-      const key = normalize(value);
-      return allChampions().find(champion => normalize(champion.id) === key || normalize(champion.en) === key || normalize(champion.ko) === key) || null;
-    }
-
-    function allChampions() {
-      const map = new Map(baseChampions.map(champion => [normalize(champion.id), champion]));
-      for (const stat of state.stats.values()) {
-        const key = normalize(stat.opponent);
-        if (!map.has(key)) map.set(key, { ko: stat.opponent, en: stat.opponent, id: stat.opponent, dynamic: true });
-      }
-      for (const guide of state.guides.values()) {
-        const key = normalize(guide.championId);
-        if (!map.has(key)) map.set(key, { ko: guide.championId, en: guide.championId, id: guide.championId, dynamic: true });
-      }
-      return [...map.values()];
-    }
-
-    function guideFor(champion) { return state.guides.get(normalize(champion.id)) || state.guides.get(normalize(champion.en)) || null; }
-    function statFor(champion) { return state.stats.get(normalize(champion.id)) || state.stats.get(normalize(champion.en)) || null; }
-
-    function decodeGuide(rawGuide) {
-      const empty = { difficulty: rawGuide?.difficulty || "", evolution: rawGuide?.evolution || "", items: "", runes: "", pathing: "", dangerSkills: "", earlyGame: "", midLateGame: "", notes: "", updatedAt: rawGuide?.updatedAt || null };
-      if (!rawGuide) return empty;
-      const rawItems = String(rawGuide.items || "");
-      try {
-        const parsed = JSON.parse(rawItems);
-        if (parsed && typeof parsed === "object" && Number(parsed.version) >= 2) {
-          for (const field of guideFields) empty[field] = String(parsed[field] || "");
-          return empty;
-        }
-      } catch {}
-      empty.items = rawItems;
-      return empty;
-    }
-
-    function encodeGuide() {
-      const payload = { version: 2 };
-      for (const field of guideFields) payload[field] = document.getElementById(field).value.trim();
-      return JSON.stringify(payload);
-    }
-
     async function api(path, options = {}) {
       const response = await fetch(`${API_BASE}${path}`, { cache: "no-store", ...options });
-      const data = await response.json().catch(() => ({ ok: false, error: `HTTP ${response.status}` }));
-      if (!response.ok || data.ok === false) throw new Error(data.error || `요청 실패 ${response.status}`);
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.ok) throw new Error(data?.error || `HTTP ${response.status}`);
       return data;
     }
 
-    async function loadDashboard() {
-      setApiState("loading", "API 연결 확인 중...");
+    async function loadCatalog() {
       try {
-        const [statusData, statsData, guidesData] = await Promise.all([api("/status"), api("/stats"), api("/guides")]);
-        state.status = statusData;
-        state.stats.clear();
-        for (const row of statsData.matchups || []) state.stats.set(normalize(row.opponent), row);
-        state.guides.clear();
-        for (const row of guidesData.guides || []) state.guides.set(normalize(row.championId), row);
-        updateHero();
-        renderChampions();
-        setApiState("ok", "API와 D1 연결 정상");
+        const versions = await fetch("https://ddragon.leagueoflegends.com/api/versions.json").then(r => r.json());
+        state.version = Array.isArray(versions) && versions[0] ? versions[0] : FALLBACK_DDRAGON_VERSION;
+      } catch { state.version = FALLBACK_DDRAGON_VERSION; }
+
+      const base = `https://ddragon.leagueoflegends.com/cdn/${state.version}/data/ko_KR`;
+      const [itemData, spellData, runeData, championData, khazixData] = await Promise.all([
+        fetch(`${base}/item.json`).then(r => r.json()),
+        fetch(`${base}/summoner.json`).then(r => r.json()),
+        fetch(`${base}/runesReforged.json`).then(r => r.json()),
+        fetch(`${base}/champion.json`).then(r => r.json()),
+        fetch(`${base}/champion/Khazix.json`).then(r => r.json())
+      ]);
+
+      Object.entries(itemData.data || {}).forEach(([id, item]) => state.items.set(Number(id), item));
+      Object.values(spellData.data || {}).forEach(spell => state.spells.set(Number(spell.key), spell));
+      (runeData || []).forEach(style => {
+        state.runes.set(Number(style.id), { id: Number(style.id), name: style.name, icon: style.icon, isStyle: true });
+        (style.slots || []).forEach(slot => (slot.runes || []).forEach(rune => state.runes.set(Number(rune.id), rune)));
+      });
+      Object.values(championData.data || {}).forEach(champion => {
+        state.champions.set(normalize(champion.id), champion);
+        state.champions.set(normalize(champion.name), champion);
+      });
+      state.khazixSpells = khazixData?.data?.Khazix?.spells || [];
+    }
+
+    function normalize(value) {
+      return String(value || "").toLowerCase().replace(/[^a-z0-9가-힣]/g, "");
+    }
+
+    function championBy(value) {
+      return state.champions.get(normalize(value)) || { id: String(value || "Unknown"), name: String(value || "Unknown") };
+    }
+
+    function championIcon(value, size = "") {
+      const champion = championBy(value);
+      return `<img class="game-icon ${size}" src="https://ddragon.leagueoflegends.com/cdn/${state.version}/img/champion/${escapeAttr(champion.id)}.png" alt="${escapeAttr(champion.name)}" title="${escapeAttr(champion.name)}" loading="lazy" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>?</span>'" />`;
+    }
+
+    function itemIcon(id, size = "") {
+      const item = state.items.get(Number(id));
+      const name = item?.name || `아이템 ${id}`;
+      return `<img class="game-icon ${size}" src="https://ddragon.leagueoflegends.com/cdn/${state.version}/img/item/${Number(id)}.png" alt="${escapeAttr(name)}" title="${escapeAttr(name)}" loading="lazy" />`;
+    }
+
+    function spellIcon(id, size = "") {
+      const spell = state.spells.get(Number(id));
+      if (!spell) return `<span class="icon-fallback">${Number(id) || "?"}</span>`;
+      return `<img class="game-icon ${size}" src="https://ddragon.leagueoflegends.com/cdn/${state.version}/img/spell/${escapeAttr(spell.image.full)}" alt="${escapeAttr(spell.name)}" title="${escapeAttr(spell.name)}" loading="lazy" />`;
+    }
+
+    function runeIcon(id, size = "") {
+      const rune = state.runes.get(Number(id));
+      if (!rune) return `<span class="icon-fallback">${Number(id) || "?"}</span>`;
+      return `<img class="game-icon ${size}" src="https://ddragon.leagueoflegends.com/cdn/img/${escapeAttr(rune.icon)}" alt="${escapeAttr(rune.name)}" title="${escapeAttr(rune.name)}" loading="lazy" />`;
+    }
+
+    function skillIcon(slot, size = "") {
+      const spell = state.khazixSpells[Number(slot) - 1];
+      const letter = SKILL_LETTERS[slot] || "?";
+      if (!spell) return `<span class="icon-fallback">${letter}</span>`;
+      return `<span class="skill-badge"><img class="game-icon ${size}" src="https://ddragon.leagueoflegends.com/cdn/${state.version}/img/spell/${escapeAttr(spell.image.full)}" alt="${letter}" title="${escapeAttr(spell.name)}" loading="lazy" /><span>${letter}</span></span>`;
+    }
+
+    function iconRow(ids, type, size = "") {
+      if (!Array.isArray(ids) || !ids.length) return `<span style="color:var(--muted);font-size:.75rem">데이터 없음</span>`;
+      const renderer = type === "item" ? itemIcon : type === "spell" ? spellIcon : type === "rune" ? runeIcon : championIcon;
+      return `<div class="icon-row">${ids.map(id => renderer(id, size)).join("")}</div>`;
+    }
+
+    function skillRow(slots, size = "") {
+      if (!Array.isArray(slots) || !slots.length) return `<span style="color:var(--muted);font-size:.75rem">데이터 없음</span>`;
+      return `<div class="skill-sequence">${slots.map((slot, index) => `${index ? '<span class="skill-arrow">→</span>' : ''}${skillIcon(slot, size)}`).join("")}</div>`;
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+    function escapeAttr(value) { return escapeHTML(value); }
+    function pct(value) { return `${Number(value || 0).toFixed(1)}%`; }
+    function count(value) { return Number(value || 0).toLocaleString("ko-KR"); }
+    function signed(value, suffix = "") { if (value === null || value === undefined) return "-"; const n = Number(value); return `${n > 0 ? "+" : ""}${Number.isInteger(n) ? n : n.toFixed(1)}${suffix}`; }
+    function valueClass(value) { const n = Number(value || 0); return n > 0 ? "positive" : n < 0 ? "negative" : "neutral"; }
+    function formatDuration(seconds) { const s = Number(seconds || 0); return `${Math.floor(s / 60)}분 ${s % 60}초`; }
+    function formatTimeline(ms) { if (ms === null || ms === undefined) return "-"; const total = Math.floor(Number(ms) / 1000); return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`; }
+    function formatDate(timestamp) { if (!timestamp) return "날짜 없음"; return new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(Number(timestamp))); }
+
+    async function loadAll() {
+      setApiState("loading", "데이터를 불러오는 중...");
+      state.tier = els.tier.value;
+      state.patch = els.patch.value;
+      const params = new URLSearchParams({ tier: state.tier, limit: "1500" });
+      if (state.patch) params.set("patch", state.patch);
+
+      try {
+        const [status, analytics, stats, guides] = await Promise.all([
+          api("/status"), api(`/analytics?${params}`), api(`/stats?tier=${encodeURIComponent(state.tier)}`), api("/guides")
+        ]);
+        state.status = status;
+        state.analytics = analytics;
+        state.stats = stats;
+        state.guides = new Map((guides.guides || []).map(guide => [normalize(guide.championId), guide]));
+        updatePatchOptions(analytics.patches || []);
+        renderAll();
+        setApiState("ok", `API 연결됨 · ${count(analytics.summary.games)}경기 표본`);
       } catch (error) {
         console.error(error);
         setApiState("bad", `API 오류: ${error.message}`);
-        renderChampions();
+        document.getElementById("sampleNotice").innerHTML = `<strong>데이터 로드 실패</strong><br>${escapeHTML(error.message)}<br>migration_v4.sql 실행과 새 worker.js 배포 여부를 확인하세요.`;
       }
     }
 
-    function updateHero() {
-      const status = state.status || {};
-      els.processedCount.textContent = Number(status.processedMatches || 0).toLocaleString("ko-KR");
-      els.khazixCount.textContent = Number(status.khazixGames || 0).toLocaleString("ko-KR");
-      els.detailCount.textContent = Number(status.detailedMatches || 0).toLocaleString("ko-KR");
-      els.winRate.textContent = `${Number(status.winRate || 0).toFixed(1)}%`;
-      els.guideCount.textContent = state.guides.size.toLocaleString("ko-KR");
+    function updatePatchOptions(patches) {
+      const current = els.patch.value;
+      const values = (patches || []).map(row => row.patch).filter(Boolean);
+      els.patch.innerHTML = `<option value="">전체 패치</option>${values.map(value => `<option value="${escapeAttr(value)}">${escapeHTML(value)} 패치</option>`).join("")}`;
+      if (values.includes(current)) els.patch.value = current;
     }
 
-    function setApiState(type, text) {
-      els.apiDot.className = `dot${type === "ok" ? " ok" : type === "bad" ? " bad" : ""}`;
+    function setApiState(mode, text) {
+      els.apiDot.className = `dot ${mode === "ok" ? "ok" : mode === "bad" ? "bad" : ""}`;
       els.apiText.textContent = text;
     }
 
-    function filteredChampions() {
-      const query = normalize(state.query);
-      return allChampions().filter(champion => {
-        const guide = guideFor(champion);
-        const stat = statFor(champion);
-        const matches = !query || normalize(champion.ko).includes(query) || normalize(champion.en).includes(query) || normalize(champion.id).includes(query);
-        if (!matches) return false;
-        if (state.filter === "written") return Boolean(guide);
-        if (state.filter === "stats") return Boolean(stat);
-        if (state.filter === "hard") return ["어려움", "매우 어려움"].includes(guide?.difficulty) || ["어려움", "매우 어려움"].includes(stat?.difficulty);
-        return true;
-      }).sort((a, b) => a.ko.localeCompare(b.ko, "ko"));
+    function renderAll() {
+      renderHero();
+      renderOverview();
+      renderRunes();
+      renderItems();
+      renderSkills();
+      renderPathing();
+      renderSynergies();
+      renderMatchups();
+      renderGuides();
+      renderCollectorState();
     }
 
-    function renderChampions() {
-      const champions = filteredChampions();
-      els.resultCount.textContent = `${champions.length}명 표시 중`;
-      if (!champions.length) {
-        els.grid.innerHTML = `<div class="empty">조건에 맞는 챔피언이 없습니다.</div>`;
-        return;
-      }
-      els.grid.innerHTML = champions.map(champion => {
-        const guide = guideFor(champion);
-        const stat = statFor(champion);
-        return `<button class="champ-card ${guide ? "has-guide" : ""}" data-champion="${escapeHTML(champion.id)}" type="button">
-          <div class="card-main">
-            <img class="champ-img" src="${imageUrl(champion.id)}" alt="${escapeHTML(champion.ko)}" loading="lazy" onerror="this.style.visibility='hidden'" />
-            <div style="min-width:0;flex:1">
-              <p class="champ-name">${escapeHTML(champion.ko)}</p>
-              <div class="champ-en">${escapeHTML(champion.en)}</div>
-              <div class="badge-row">
-                ${guide ? `<span class="badge guide">${escapeHTML(guide.difficulty || "공략 있음")}</span>` : `<span class="badge">공략 없음</span>`}
-                ${stat ? `<span class="badge auto">${Number(stat.games || 0)}판 · ${Number(stat.winRate || 0).toFixed(1)}%</span>` : ""}
-              </div>
-            </div>
-          </div>
-        </button>`;
+    function renderHero() {
+      const s = state.status || {};
+      const a = state.analytics?.summary || {};
+      els.processedCount.textContent = count(s.processedMatches);
+      els.khazixCount.textContent = count(s.khazixGames);
+      els.analysisCount.textContent = count(s.analysisMatches ?? a.analysisGames);
+      els.globalWinRate.textContent = pct(a.winRate ?? s.winRate);
+      els.coverageRate.textContent = pct(a.analysisCoverage);
+      document.getElementById("filterSummary").textContent = `${state.tier === "ALL" ? "마스터 이상 전체" : state.tier}${state.patch ? ` · ${state.patch} 패치` : ""}`;
+    }
+
+    function renderOverview() {
+      const a = state.analytics || {};
+      const s = a.summary || {};
+      const sampleMessage = s.games < 20
+        ? `<strong>현재 표본 ${count(s.games)}경기</strong> · 데이터가 적어 승률이 크게 흔들릴 수 있습니다. 자동 수집이 진행될수록 추천이 단단해집니다.`
+        : `<strong>${count(s.games)}경기 분석 완료</strong> · 룬 ${pct(s.analysisCoverage)}, 타임라인 ${pct(s.timelineCoverage)} 커버리지입니다.`;
+      document.getElementById("sampleNotice").innerHTML = sampleMessage;
+
+      document.getElementById("overviewMetrics").innerHTML = [
+        metric("승률", pct(s.winRate), `${count(s.wins)}승 ${count(s.losses)}패`, s.winRate - 50),
+        metric("평균 KDA", Number(s.averageKda || 0).toFixed(2), "(킬+어시스트)/데스", s.averageKda - 3),
+        metric("룬 분석 경기", count(s.analysisGames), pct(s.analysisCoverage), s.analysisCoverage - 70),
+        metric("타임라인 경기", count(s.timelineGames), pct(s.timelineCoverage), s.timelineCoverage - 70)
+      ].join("");
+
+      const topRune = a.keystones?.[0]; const topCore = a.coreBuilds?.[0]; const topSpell = a.spellCombinations?.[0]; const topStart = a.startingItems?.[0];
+      document.getElementById("autoPicks").innerHTML = [
+        autoPick("가장 많이 쓴 핵심 룬", topRune ? runeIcon(topRune.id, "lg") : "", topRune ? `${state.runes.get(Number(topRune.id))?.name || topRune.id} · ${pct(topRune.pickRate)}` : "데이터 없음"),
+        autoPick("가장 많은 3코어", topCore ? iconRow(topCore.ids, "item", "sm") : "", topCore ? `${pct(topCore.winRate)} 승률 · ${count(topCore.games)}경기` : "데이터 없음"),
+        autoPick("추천 주문 조합", topSpell ? iconRow(topSpell.ids, "spell", "sm") : "", topSpell ? `${pct(topSpell.pickRate)} 채택 · ${pct(topSpell.winRate)} 승률` : "데이터 없음"),
+        autoPick("추천 시작 아이템", topStart ? iconRow(topStart.ids, "item", "sm") : "", topStart ? `${pct(topStart.pickRate)} 채택 · ${count(topStart.games)}경기` : "데이터 없음")
+      ].join("");
+
+      document.getElementById("minute10Metrics").innerHTML = earlyMetrics(a.early?.minute10);
+      document.getElementById("minute15Metrics").innerHTML = earlyMetrics(a.early?.minute15);
+      const e = a.early || {};
+      document.getElementById("timingMetrics").innerHTML = [
+        metric("첫 킬", formatTimeline(e.averageFirstKillTime), "평균"),
+        metric("첫 귀환 구매", formatTimeline(e.averageFirstPurchaseTime), "3분 이후 첫 구매 추정"),
+        metric("첫 교전", formatTimeline(e.averageFirstGankTime), "킬 관여 기준"),
+        metric("6레벨", formatTimeline(e.averageLevel6Time), "타임라인 기준")
+      ].join("");
+    }
+
+    function metric(label, value, note = "", direction = null) {
+      const cls = direction === null ? "neutral" : valueClass(direction);
+      return `<div class="metric-card"><span>${escapeHTML(label)}</span><strong class="${cls}">${escapeHTML(value)}</strong><em>${escapeHTML(note)}</em></div>`;
+    }
+    function earlyMetrics(data = {}) {
+      return [
+        metric("골드 차이", signed(data.goldDiff), "상대 정글 대비", data.goldDiff),
+        metric("경험치 차이", signed(data.xpDiff), "상대 정글 대비", data.xpDiff),
+        metric("정글 CS 차이", signed(data.jungleCsDiff), "상대 정글 대비", data.jungleCsDiff),
+        metric("레벨 차이", signed(data.levelDiff), "상대 정글 대비", data.levelDiff)
+      ].join("");
+    }
+    function autoPick(label, icons, description) { return `<div class="auto-pick"><span>${escapeHTML(label)}</span><div style="margin-top:8px">${icons}</div><strong title="${escapeAttr(description)}">${escapeHTML(description)}</strong></div>`; }
+
+    function renderRunes() {
+      const a = state.analytics || {};
+      document.getElementById("keystoneGrid").innerHTML = renderIconStats(a.keystones, "rune", row => row.id);
+      document.getElementById("runeStatGrid").innerHTML = renderIconStats(a.runeStats, "rune", row => row.id);
+      document.getElementById("runeComboList").innerHTML = renderComboList(a.runeCombinations, "rune");
+    }
+
+    function renderItems() {
+      const a = state.analytics || {};
+      document.getElementById("coreBuildList").innerHTML = renderComboList(a.coreBuilds, "item");
+      document.getElementById("firstItemGrid").innerHTML = renderIconStats(a.firstItems, "item", row => row.id);
+      document.getElementById("startingItemList").innerHTML = renderComboList(a.startingItems, "item");
+      document.getElementById("bootGrid").innerHTML = renderIconStats(a.boots, "item", row => row.id);
+      document.getElementById("itemStatGrid").innerHTML = renderIconStats(a.itemStats, "item", row => row.id);
+    }
+
+    function renderSkills() {
+      const a = state.analytics || {};
+      document.getElementById("skillOrderList").innerHTML = renderSkillList(a.skillOrders);
+      document.getElementById("earlySkillList").innerHTML = renderSkillList(a.earlySkillOrders);
+      document.getElementById("khazixSkills").innerHTML = state.khazixSpells.map((spell, index) => `<div class="icon-stat">${skillIcon(index + 1, "lg")}<div><b>${SKILL_LETTERS[index + 1]} · ${escapeHTML(spell.name)}</b><small>${escapeHTML(stripHTML(spell.description).slice(0, 82))}...</small></div></div>`).join("");
+      const khazixGuide = state.guides.get(normalize("Khazix"));
+      document.getElementById("evolutionGuide").innerHTML = khazixGuide?.evolution
+        ? `<strong>관리자 추천</strong><br>${renderEvolution(khazixGuide.evolution)}<br><span style="color:var(--muted)">${escapeHTML(khazixGuide.evolution)}</span>`
+        : `<strong>실제 진화 순서는 API에서 직접 확인할 수 없습니다.</strong><br>관리자가 카직스 공략에서 진화 순서를 등록하면 Q/W/E 아이콘으로 표시됩니다.`;
+    }
+
+    function renderPathing() {
+      const a = state.analytics || {};
+      document.getElementById("gankLaneList").innerHTML = (a.gankLanes || []).map(row => statRow(`<b>${escapeHTML(row.lane)}</b>`, row.winRate, row.pickRate, row.games)).join("") || empty("타임라인 표본이 없습니다.");
+      const e = a.early || {};
+      document.getElementById("pathTimingGrid").innerHTML = [metric("첫 귀환 구매", formatTimeline(e.averageFirstPurchaseTime), "평균"), metric("첫 교전", formatTimeline(e.averageFirstGankTime), "평균"), metric("6레벨", formatTimeline(e.averageLevel6Time), "평균"), metric("첫 킬", formatTimeline(e.averageFirstKillTime), "평균")].join("");
+    }
+
+    function renderSynergies() {
+      const groups = new Map();
+      (state.analytics?.synergies || []).forEach(row => {
+        const role = row.position || "UNKNOWN";
+        if (!groups.has(role)) groups.set(role, []);
+        groups.get(role).push(row);
+      });
+      const order = ["TOP","MIDDLE","BOTTOM","UTILITY","JUNGLE","UNKNOWN"];
+      document.getElementById("synergyByRole").innerHTML = order.filter(role => groups.has(role)).map(role => `<div class="role-block"><h3 class="role-title">${POSITION_NAMES[role] || role} 시너지</h3><div class="synergy-scroll">${groups.get(role).map(row => { const champ = championBy(row.champion); return `<div class="synergy-card"><div class="champ-line">${championIcon(champ.id, "sm")}<b>${escapeHTML(champ.name)}</b></div><div class="mini-stats"><span>${count(row.games)}경기</span><strong class="${row.winRate >= 50 ? "positive" : "negative"}">${pct(row.winRate)}</strong><span>${pct(row.pickRate)} 표본</span></div></div>`; }).join("")}</div></div>`).join("") || empty("시너지 데이터가 없습니다.");
+    }
+
+    function renderMatchups() {
+      const rows = [...(state.analytics?.matchups || [])];
+      const reliable = rows.filter(row => row.games >= 2);
+      const source = reliable.length >= 6 ? reliable : rows;
+      const hard = [...source].sort((a,b) => a.winRate - b.winRate || b.games - a.games).slice(0,12);
+      const easy = [...source].sort((a,b) => b.winRate - a.winRate || b.games - a.games).slice(0,12);
+      document.getElementById("hardMatchups").innerHTML = hard.map(renderMatchupRow).join("") || empty("데이터 없음");
+      document.getElementById("easyMatchups").innerHTML = easy.map(renderMatchupRow).join("") || empty("데이터 없음");
+    }
+
+    function renderMatchupRow(row) {
+      const champ = championBy(row.champion);
+      return `<div class="matchup-row">${championIcon(champ.id, "sm")}<b>${escapeHTML(champ.name)}</b><span>${count(row.games)}게임</span><strong class="${row.winRate >= 50 ? "positive" : "negative"}">${pct(row.winRate)}</strong></div>`;
+    }
+
+    function renderIconStats(rows = [], type, getId) {
+      if (!rows.length) return empty("데이터가 아직 없습니다.");
+      return rows.map(row => {
+        const id = getId(row);
+        const icon = type === "item" ? itemIcon(id, "lg") : runeIcon(id, "lg");
+        const name = type === "item" ? state.items.get(Number(id))?.name : state.runes.get(Number(id))?.name;
+        return `<div class="icon-stat">${icon}<div><b>${escapeHTML(name || id)}</b><small>${count(row.games)}경기</small><div class="rates"><span class="${row.winRate >= 50 ? "positive" : "negative"}">${pct(row.winRate)} 승률</span><span>${pct(row.pickRate)} 채택</span></div></div></div>`;
       }).join("");
-      els.grid.querySelectorAll(".champ-card").forEach(card => card.addEventListener("click", () => {
-        const champion = allChampions().find(item => item.id === card.dataset.champion);
-        if (champion) openGuide(champion);
-      }));
     }
 
-    function renderReadGuide(champion, rawGuide) {
-      const guide = decodeGuide(rawGuide);
-      const stat = statFor(champion);
-      const blocks = [
-        ["관리자 난이도", guide.difficulty], ["자동 통계", stat ? `${stat.games}판 ${Number(stat.winRate || 0).toFixed(1)}% · ${stat.difficulty}` : "수집된 통계 없음"],
-        ["추천 진화 순서", guide.evolution], ["추천 템트리", guide.items], ["추천 룬과 주문", guide.runes],
-        ["초반 동선과 첫 교전", guide.pathing], ["주의할 핵심 스킬", guide.dangerSkills], ["초반 상대법", guide.earlyGame],
-        ["중후반 및 한타 상대법", guide.midLateGame], ["추가 메모", guide.notes]
-      ];
-      els.guideReadView.innerHTML = blocks.map(([title, content]) => `<section class="read-block"><h3>${escapeHTML(title)}</h3><p class="${content ? "" : "empty-text"}">${escapeHTML(content || "아직 작성되지 않았습니다.")}</p></section>`).join("") +
-        (state.isAdmin ? `<button id="switchEditButton" class="primary-btn" type="button">관리자 편집</button>` : `<p class="admin-note">공략 작성과 수정은 관리자만 가능합니다.</p>`);
-      const editButton = document.getElementById("switchEditButton");
-      if (editButton) editButton.addEventListener("click", () => showGuideEditor(rawGuide));
+    function renderComboList(rows = [], type) {
+      if (!rows.length) return empty("데이터가 아직 없습니다.");
+      return rows.map(row => statRow(iconRow(row.ids, type, "sm"), row.winRate, row.pickRate, row.games)).join("");
+    }
+
+    function renderSkillList(rows = []) {
+      if (!rows.length) return empty("스킬 타임라인 표본이 없습니다.");
+      return rows.map(row => statRow(skillRow(row.slots, "sm"), row.winRate, row.pickRate, row.games)).join("");
+    }
+
+    function statRow(labelHTML, winRate, pickRate, games) {
+      return `<div class="stat-row"><div class="label">${labelHTML}</div><div class="num"><small>승률</small><strong class="${winRate >= 50 ? "positive" : "negative"}">${pct(winRate)}</strong></div><div class="num pick"><small>채택률</small><strong>${pct(pickRate)}</strong></div><div class="num"><small>게임수</small><strong>${count(games)}</strong></div></div>`;
+    }
+
+    function empty(text) { return `<div class="empty">${escapeHTML(text)}</div>`; }
+
+    async function loadMatches() {
+      const tier = document.getElementById("matchTier").value;
+      const opponent = document.getElementById("matchOpponent").value.trim();
+      const params = new URLSearchParams({ tier, limit: "30" });
+      if (opponent) params.set("opponent", opponent);
+      document.getElementById("matchList").innerHTML = empty("경기 기록을 불러오는 중입니다...");
+      try {
+        const data = await api(`/matches?${params}`);
+        state.matches = data.matches || [];
+        renderMatches();
+      } catch (error) {
+        document.getElementById("matchList").innerHTML = empty(`경기 기록 오류: ${error.message}`);
+      }
+    }
+
+    function renderMatches() {
+      document.getElementById("matchCount").textContent = `${state.matches.length}경기`;
+      if (!state.matches.length) { document.getElementById("matchList").innerHTML = empty("아직 저장된 상세 경기 기록이 없습니다."); return; }
+      document.getElementById("matchList").innerHTML = state.matches.map(match => {
+        const enemy = championBy(match.enemyChampion);
+        return `<article class="match-card ${match.win ? "win" : ""}"><header class="match-head"><div><strong>카직스 vs ${escapeHTML(enemy.name)}</strong><small>${escapeHTML(match.tierSource)} · ${escapeHTML(match.patch)} 패치 · ${formatDate(match.gameStartTime)} · ${formatDuration(match.gameDuration)}</small></div><span class="result-pill ${match.win ? "win" : ""}">${match.win ? "승리" : "패배"}</span></header><div class="duel"><div class="duelist">${championIcon("Khazix", "lg")}<div><b>${escapeHTML(match.khazixPlayer || "이름 비공개")}</b><span>${match.khazix.kills} / ${match.khazix.deaths} / ${match.khazix.assists}</span></div></div><div class="vs">VS</div><div class="duelist right">${championIcon(enemy.id, "lg")}<div><b>${escapeHTML(match.enemyPlayer || "이름 비공개")}</b><span>${match.enemy.kills} / ${match.enemy.deaths} / ${match.enemy.assists}</span></div></div></div><div class="match-icon-block"><div class="match-icon-line"><span>룬</span>${iconRow(match.runeIds, "rune", "sm")}</div><div class="match-icon-line"><span>주문</span>${iconRow(match.summonerSpells, "spell", "sm")}</div><div class="match-icon-line"><span>시작 아이템</span>${iconRow(match.startingItems, "item", "sm")}</div><div class="match-icon-line"><span>3코어</span>${iconRow(match.threeItemCore, "item", "sm")}</div><div class="match-icon-line"><span>스킬 순서</span>${skillRow(match.skillOrder?.slice(0, 9), "sm")}</div></div><div class="match-early"><div class="early-box"><span>초반 구도</span><b>${escapeHTML(match.earlyState || "데이터 없음")}</b></div><div class="early-box"><span>10분 골드</span><b class="${valueClass(match.minute10?.goldDiff)}">${signed(match.minute10?.goldDiff)}</b></div><div class="early-box"><span>첫 교전</span><b>${formatTimeline(match.firstGankTime)} · ${escapeHTML(match.firstGankLane || "-")}</b></div><div class="early-box"><span>6레벨</span><b>${formatTimeline(match.level6Time)}</b></div></div></article>`;
+      }).join("");
+    }
+
+    function decodeGuide(guide) {
+      if (!guide) return {};
+      try { const parsed = JSON.parse(guide.items || "{}"); return typeof parsed === "object" && parsed ? parsed : {}; }
+      catch { return { notes: guide.items || "" }; }
+    }
+
+    function encodeGuide() {
+      return JSON.stringify({
+        itemIds: parseIds(document.getElementById("itemIds").value),
+        runeIds: parseIds(document.getElementById("runeIds").value),
+        spellIds: parseIds(document.getElementById("spellIds").value),
+        pathing: document.getElementById("pathing").value.trim(),
+        dangerSkills: document.getElementById("dangerSkills").value.trim(),
+        earlyGame: document.getElementById("earlyGame").value.trim(),
+        midLateGame: document.getElementById("midLateGame").value.trim(),
+        notes: document.getElementById("notes").value.trim()
+      });
+    }
+
+    function parseIds(value) { return [...new Set(String(value || "").split(/[,\s]+/).map(Number).filter(Boolean))]; }
+
+    function renderGuides() {
+      const query = normalize(state.guideQuery);
+      const matchupMap = new Map((state.analytics?.matchups || []).map(row => [normalize(row.champion), row]));
+      const champions = JUNGLE_IDS.map(id => championBy(id)).filter(champ => champ.id).filter(champ => !query || normalize(champ.name).includes(query) || normalize(champ.id).includes(query)).filter(champ => {
+        const guide = state.guides.get(normalize(champ.id)); const stat = matchupMap.get(normalize(champ.id));
+        if (state.guideFilter === "written") return Boolean(guide);
+        if (state.guideFilter === "stats") return Boolean(stat);
+        if (state.guideFilter === "hard") return stat && stat.winRate < 48;
+        return true;
+      }).sort((a,b) => a.name.localeCompare(b.name, "ko"));
+      document.getElementById("guideResultCount").textContent = `${champions.length}명`;
+      document.getElementById("championGrid").innerHTML = champions.map(champ => {
+        const guide = state.guides.get(normalize(champ.id)); const stat = matchupMap.get(normalize(champ.id));
+        return `<button class="champ-card ${guide ? "has-guide" : ""}" type="button" data-champion-id="${escapeAttr(champ.id)}">${championIcon(champ.id, "lg")}<div class="name"><b>${escapeHTML(champ.name)}</b><small>${escapeHTML(champ.id)}</small><span class="badge ${guide ? "saved" : ""}">${guide ? escapeHTML(guide.difficulty || "공략 있음") : stat ? `${pct(stat.winRate)} · ${count(stat.games)}경기` : "미작성"}</span></div></button>`;
+      }).join("");
+      document.querySelectorAll("[data-champion-id]").forEach(button => button.addEventListener("click", () => openGuide(championBy(button.dataset.championId))));
     }
 
     function openGuide(champion) {
       state.currentChampion = champion;
-      els.guideAvatar.innerHTML = `<img class="champ-img" src="${imageUrl(champion.id)}" alt="${escapeHTML(champion.ko)}" onerror="this.style.visibility='hidden'" />`;
-      els.guideName.textContent = champion.ko;
-      els.guideEnglish.textContent = champion.en;
+      const guide = state.guides.get(normalize(champion.id));
+      els.guideAvatar.innerHTML = championIcon(champion.id, "lg");
+      els.guideName.textContent = champion.name;
+      els.guideEnglish.textContent = champion.id;
+      renderGuideRead(champion, guide);
       els.guideForm.hidden = true;
       els.guideReadView.hidden = false;
-      renderReadGuide(champion, guideFor(champion));
-      els.guideDialog.showModal();
-      document.body.style.overflow = "hidden";
+      els.guideDialog.showModal(); document.body.style.overflow = "hidden";
     }
 
-    function showGuideEditor(rawGuide) {
-      if (!state.isAdmin) return;
-      const guide = decodeGuide(rawGuide);
-      document.getElementById("difficulty").value = guide.difficulty;
-      document.getElementById("evolution").value = guide.evolution;
-      for (const field of guideFields) document.getElementById(field).value = guide[field] || "";
-      els.guideReadView.hidden = true;
-      els.guideForm.hidden = false;
+    function renderGuideRead(champion, guide) {
+      const data = decodeGuide(guide);
+      const matchup = (state.analytics?.matchups || []).find(row => normalize(row.champion) === normalize(champion.id));
+      const auto = matchup ? `<div class="guide-section"><h3>천상계 자동 통계</h3><p>${count(matchup.games)}경기 · 카직스 승률 ${pct(matchup.winRate)} · 채택 표본 ${pct(matchup.pickRate)}</p></div>` : "";
+      const sections = [
+        guideSection("관리자 난이도", guide?.difficulty || "미설정"),
+        `<div class="guide-section"><h3>추천 진화 순서</h3>${renderEvolution(guide?.evolution || "")}</div>`,
+        `<div class="guide-section"><h3>추천 템트리</h3>${iconRow(data.itemIds, "item", "lg")}</div>`,
+        `<div class="guide-section"><h3>추천 룬</h3>${iconRow(data.runeIds, "rune", "lg")}</div>`,
+        `<div class="guide-section"><h3>추천 주문</h3>${iconRow(data.spellIds, "spell", "lg")}</div>`,
+        guideSection("초반 동선과 첫 교전", data.pathing),
+        guideSection("주의할 핵심 스킬", data.dangerSkills),
+        guideSection("초반 상대법", data.earlyGame),
+        guideSection("중후반 및 한타 상대법", data.midLateGame),
+        guideSection("추가 메모", data.notes)
+      ].join("");
+      els.guideReadView.innerHTML = `${auto}${guide ? sections : empty("아직 관리자 공략이 없습니다. 천상계 자동 통계는 상대 탭에서 확인할 수 있습니다.")}${state.isAdmin ? '<button id="editGuideButton" class="primary-btn" type="button" style="width:100%;margin-top:12px">관리자 편집</button>' : '<p class="admin-note" style="margin-top:12px">공략 작성과 수정은 관리자만 가능합니다.</p>'}`;
+      document.getElementById("editGuideButton")?.addEventListener("click", () => openGuideEdit(guide));
+    }
+
+    function guideSection(title, text) { return `<div class="guide-section"><h3>${escapeHTML(title)}</h3><p>${escapeHTML(text || "미작성")}</p></div>`; }
+    function renderEvolution(text) { const letters = String(text || "").toUpperCase().match(/[QWER]/g) || []; return letters.length ? skillRow(letters.map(letter => ({Q:1,W:2,E:3,R:4})[letter]), "lg") : '<p style="color:var(--muted)">미작성</p>'; }
+
+    function openGuideEdit(guide) {
+      const data = decodeGuide(guide);
+      document.getElementById("difficulty").value = guide?.difficulty || "";
+      document.getElementById("evolution").value = guide?.evolution || "";
+      document.getElementById("itemIds").value = (data.itemIds || []).join(", ");
+      document.getElementById("runeIds").value = (data.runeIds || []).join(", ");
+      document.getElementById("spellIds").value = (data.spellIds || []).join(", ");
+      ["pathing","dangerSkills","earlyGame","midLateGame","notes"].forEach(id => document.getElementById(id).value = data[id] || "");
+      els.guideReadView.hidden = true; els.guideForm.hidden = false;
+    }
+
+    async function fillAutoGuide() {
+      if (!state.currentChampion) return;
+      const params = new URLSearchParams({ opponent: state.currentChampion.id, tier: state.tier, limit: "1500" });
+      try {
+        const data = await api(`/analytics?${params}`);
+        const a = data;
+        document.getElementById("itemIds").value = (a.coreBuilds?.[0]?.ids || []).join(", ");
+        document.getElementById("runeIds").value = (a.runeCombinations?.[0]?.ids || []).join(", ");
+        document.getElementById("spellIds").value = (a.spellCombinations?.[0]?.ids || []).join(", ");
+        const rate = Number(a.summary?.winRate || 0);
+        document.getElementById("difficulty").value = a.summary?.games < 5 ? "" : rate < 45 ? "매우 어려움" : rate < 49 ? "어려움" : rate < 52 ? "보통" : rate < 56 ? "쉬움" : "매우 쉬움";
+        document.getElementById("pathing").value = `표본 ${a.summary?.games || 0}경기. 첫 교전 평균 ${formatTimeline(a.early?.averageFirstGankTime)}, 가장 자주 나온 첫 교전 위치는 ${a.gankLanes?.[0]?.lane || "데이터 없음"}.`;
+        document.getElementById("earlyGame").value = `10분 평균 골드 ${signed(a.early?.minute10?.goldDiff)}, 경험치 ${signed(a.early?.minute10?.xpDiff)}, 정글 CS ${signed(a.early?.minute10?.jungleCsDiff)}.`;
+        showToast("상대별 천상계 추천을 입력했습니다. 내용을 검토한 뒤 저장하세요.");
+      } catch (error) { showToast(`자동 추천 실패: ${error.message}`); }
     }
 
     async function saveGuide(event) {
-      event.preventDefault();
-      if (!state.isAdmin || !state.currentChampion) return;
+      event.preventDefault(); if (!state.isAdmin || !state.currentChampion) return;
       const championId = state.currentChampion.id;
       try {
-        const response = await api(`/guides/${encodeURIComponent(championId)}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${state.adminToken}` },
-          body: JSON.stringify({ difficulty: document.getElementById("difficulty").value, evolution: document.getElementById("evolution").value.trim(), items: encodeGuide() })
-        });
+        const response = await api(`/guides/${encodeURIComponent(championId)}`, { method: "PUT", headers: { "Content-Type": "application/json", "Authorization": `Bearer ${state.adminToken}` }, body: JSON.stringify({ difficulty: document.getElementById("difficulty").value, evolution: document.getElementById("evolution").value.trim(), items: encodeGuide() }) });
         const saved = response.guide || { championId, difficulty: document.getElementById("difficulty").value, evolution: document.getElementById("evolution").value.trim(), items: encodeGuide() };
-        state.guides.set(normalize(championId), { ...saved, championId });
-        updateHero(); renderChampions(); renderReadGuide(state.currentChampion, state.guides.get(normalize(championId)));
-        els.guideForm.hidden = true; els.guideReadView.hidden = false;
-        showToast(`${state.currentChampion.ko} 공략을 저장했습니다.`);
+        state.guides.set(normalize(championId), saved);
+        renderGuides(); renderSkills(); renderGuideRead(state.currentChampion, saved); els.guideForm.hidden = true; els.guideReadView.hidden = false; showToast("공략을 저장했습니다.");
       } catch (error) { showToast(`저장 실패: ${error.message}`); }
     }
 
     async function deleteGuide() {
       if (!state.isAdmin || !state.currentChampion) return;
-      if (!confirm(`${state.currentChampion.ko} 공략을 삭제할까요?`)) return;
-      try {
-        await api(`/guides/${encodeURIComponent(state.currentChampion.id)}`, { method: "DELETE", headers: { "Authorization": `Bearer ${state.adminToken}` } });
-        state.guides.delete(normalize(state.currentChampion.id));
-        updateHero(); renderChampions(); renderReadGuide(state.currentChampion, null);
-        els.guideForm.hidden = true; els.guideReadView.hidden = false;
-        showToast("공략을 삭제했습니다.");
-      } catch (error) { showToast(`삭제 실패: ${error.message}`); }
+      if (!confirm(`${state.currentChampion.name} 공략을 삭제할까요?`)) return;
+      try { await api(`/guides/${encodeURIComponent(state.currentChampion.id)}`, { method: "DELETE", headers: { "Authorization": `Bearer ${state.adminToken}` } }); state.guides.delete(normalize(state.currentChampion.id)); renderGuides(); renderGuideRead(state.currentChampion, null); els.guideForm.hidden = true; els.guideReadView.hidden = false; showToast("공략을 삭제했습니다."); }
+      catch (error) { showToast(`삭제 실패: ${error.message}`); }
     }
 
     async function verifyAdmin(token, quiet = false) {
-      try {
-        await api("/admin/check", { method: "POST", headers: { "Authorization": `Bearer ${token}` } });
-        state.adminToken = token; state.isAdmin = true; sessionStorage.setItem(ADMIN_SESSION_KEY, token); updateAdminUI();
-        if (!quiet) showToast("관리자 로그인 성공");
-        return true;
-      } catch (error) {
-        state.isAdmin = false; updateAdminUI(); if (!quiet) showToast(`인증 실패: ${error.message}`); return false;
-      }
+      try { await api("/admin/check", { method: "POST", headers: { "Authorization": `Bearer ${token}` } }); state.adminToken = token; state.isAdmin = true; sessionStorage.setItem(ADMIN_SESSION_KEY, token); updateAdminUI(); if (!quiet) showToast("관리자 로그인 성공"); return true; }
+      catch (error) { state.isAdmin = false; updateAdminUI(); if (!quiet) showToast(`인증 실패: ${error.message}`); return false; }
     }
 
-    function updateAdminUI() {
-      els.adminButton.classList.toggle("active", state.isAdmin);
-      els.adminButton.textContent = state.isAdmin ? "🔓 관리자 ON" : "🔒 관리자";
-      els.adminLogoutButton.hidden = !state.isAdmin;
+    function updateAdminUI() { els.adminButton.classList.toggle("active", state.isAdmin); els.adminButton.textContent = state.isAdmin ? "🔓 관리자 ON" : "🔒 관리자"; els.adminLogoutButton.hidden = !state.isAdmin; }
+
+    function renderCollectorState() {
+      const rows = state.status?.collectorState || [];
+      const html = rows.map(row => `<div class="stat-row"><div class="label"><b>${escapeHTML(row.tier)}</b><small>${escapeHTML(row.updated_at || "업데이트 없음")}</small></div><div class="num"><small>다음 순번</small><strong>${count(Number(row.next_offset || 0) + 1)}</strong></div><div class="num pick"><small>상태</small><strong class="positive">활성</strong></div><div class="num"><small>주기</small><strong>2분</strong></div></div>`).join("") || empty("아직 자동 수집 기록이 없습니다.");
+      document.getElementById("collectorState").innerHTML = html;
+      document.getElementById("collectorDialogState").innerHTML = html;
     }
 
-    async function loadMatches() {
-      els.matchList.innerHTML = `<div class="empty">경기 기록을 불러오는 중입니다...</div>`;
-      const tier = els.matchTier.value;
-      const opponent = els.matchOpponent.value.trim();
-      try {
-        const query = new URLSearchParams({ limit: "30", tier });
-        if (opponent) query.set("opponent", opponent);
-        const data = await api(`/matches?${query.toString()}`);
-        state.matches = data.matches || [];
-        renderMatches();
-      } catch (error) {
-        els.matchList.innerHTML = `<div class="empty">경기 기록 오류: ${escapeHTML(error.message)}</div>`;
-        els.matchResultCount.textContent = "불러오기 실패";
-      }
-    }
-
-    function renderItems(items) {
-      if (!Array.isArray(items) || !items.length) return `<span class="tiny-note">아이템 없음</span>`;
-      return `<div class="item-row">${items.map(id => `<img class="item-icon" src="${itemUrl(id)}" alt="아이템 ${Number(id)}" title="${Number(id)}" loading="lazy" />`).join("")}</div>`;
-    }
-
-    function renderMatches() {
-      els.matchResultCount.textContent = `${state.matches.length}경기`;
-      if (!state.matches.length) {
-        els.matchList.innerHTML = `<div class="empty">아직 저장된 상세 경기 기록이 없습니다.<br />자동 수집 또는 backfill이 완료되면 표시됩니다.</div>`;
-        return;
-      }
-      els.matchList.innerHTML = state.matches.map((match, index) => {
-        const enemyChampion = findChampion(match.enemyChampion) || { ko: match.enemyChampion, en: match.enemyChampion, id: match.enemyChampion };
-        const ten = match.minute10 || {}; const fifteen = match.minute15 || {};
-        return `<article class="match-card ${match.win ? "win" : "loss"}" data-match-index="${index}">
-          <header class="match-head"><div class="match-title"><strong>카직스 vs ${escapeHTML(enemyChampion.ko)}</strong><span>${escapeHTML(match.tierSource)} · ${escapeHTML(match.patch)} 패치 · ${formatDate(match.gameStartTime)} · ${formatDuration(match.gameDuration)}</span></div><span class="result-pill ${match.win ? "win" : "loss"}">${match.win ? "승리" : "패배"}</span></header>
-          <div class="duel">
-            <div class="duelist"><img src="${imageUrl("Khazix")}" alt="카직스" /><div><div class="player-name">${escapeHTML(match.khazixPlayer || "이름 비공개")}</div><div class="kda">${match.khazix.kills} / ${match.khazix.deaths} / ${match.khazix.assists}</div></div></div>
-            <div class="versus">VS</div>
-            <div class="duelist right"><img src="${imageUrl(enemyChampion.id)}" alt="${escapeHTML(enemyChampion.ko)}" /><div><div class="player-name">${escapeHTML(match.enemyPlayer || "이름 비공개")}</div><div class="kda">${match.enemy.kills} / ${match.enemy.deaths} / ${match.enemy.assists}</div></div></div>
-          </div>
-          <div class="early-strip"><div class="early-box"><b>${escapeHTML(match.earlyState || "데이터 없음")}</b><span>초반 정글 구도</span></div><div class="early-box"><b>${signed(ten.goldDiff)} 골드</b><span>10분 골드 차이</span></div><div class="early-box"><b>${signed(fifteen.goldDiff)} 골드</b><span>15분 골드 차이</span></div></div>
-          <div class="match-details"><div class="detail-grid">
-            <div class="detail-cell"><span>10분 경험치 차이</span><strong>${signed(ten.xpDiff)}</strong></div><div class="detail-cell"><span>10분 정글 CS 차이</span><strong>${signed(ten.jungleCsDiff)}</strong></div>
-            <div class="detail-cell"><span>15분 경험치 차이</span><strong>${signed(fifteen.xpDiff)}</strong></div><div class="detail-cell"><span>15분 정글 CS 차이</span><strong>${signed(fifteen.jungleCsDiff)}</strong></div>
-            <div class="detail-cell"><span>최종 골드</span><strong>${Number(match.khazix.gold || 0).toLocaleString("ko-KR")} vs ${Number(match.enemy.gold || 0).toLocaleString("ko-KR")}</strong></div>
-            <div class="detail-cell"><span>최종 CS</span><strong>${match.khazix.cs} vs ${match.enemy.cs}</strong></div>
-            <div class="detail-cell"><span>챔피언 피해량</span><strong>${Number(match.khazix.damage || 0).toLocaleString("ko-KR")} vs ${Number(match.enemy.damage || 0).toLocaleString("ko-KR")}</strong></div>
-            <div class="detail-cell"><span>시야 점수</span><strong>${match.khazix.vision} vs ${match.enemy.vision}</strong></div>
-            <div class="detail-cell" style="grid-column:1/-1"><span>카직스 최종 아이템</span>${renderItems(match.khazix.items)}</div>
-            <div class="detail-cell" style="grid-column:1/-1"><span>상대 최종 아이템</span>${renderItems(match.enemy.items)}</div>
-          </div></div>
-          <button class="expand-btn" type="button">상세 기록 펼치기</button>
-        </article>`;
-      }).join("");
-      els.matchList.querySelectorAll(".expand-btn").forEach(button => button.addEventListener("click", () => {
-        const card = button.closest(".match-card"); card.classList.toggle("open"); button.textContent = card.classList.contains("open") ? "상세 기록 접기" : "상세 기록 펼치기";
-      }));
-    }
-
+    function stripHTML(value) { const temp = document.createElement("div"); temp.innerHTML = value || ""; return temp.textContent || ""; }
+    let toastTimer; function showToast(message) { clearTimeout(toastTimer); els.toast.textContent = message; els.toast.classList.add("show"); toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2300); }
     function closeDialog(dialog) { if (dialog.open) dialog.close(); document.body.style.overflow = ""; }
-    let toastTimer;
-    function showToast(message) { clearTimeout(toastTimer); els.toast.textContent = message; els.toast.classList.add("show"); toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2200); }
 
-    document.querySelectorAll(".tab-button").forEach(button => button.addEventListener("click", () => {
-      document.querySelectorAll(".tab-button").forEach(item => item.classList.remove("active")); button.classList.add("active");
-      const showMatches = button.dataset.tab === "matches";
-      document.getElementById("guidesPanel").hidden = showMatches; document.getElementById("matchesPanel").hidden = !showMatches;
-      if (showMatches && !state.matches.length) loadMatches();
+    document.querySelectorAll(".tab-btn").forEach(button => button.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(item => item.classList.remove("active")); button.classList.add("active");
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.hidden = true); document.getElementById(`${button.dataset.tab}Panel`).hidden = false;
+      if (button.dataset.tab === "matches" && !state.matches.length) loadMatches();
     }));
-
-    els.search.addEventListener("input", event => { state.query = event.target.value; renderChampions(); });
-    document.querySelectorAll(".filter-btn").forEach(button => button.addEventListener("click", () => {
-      document.querySelectorAll(".filter-btn").forEach(item => item.classList.remove("active")); button.classList.add("active"); state.filter = button.dataset.filter; renderChampions();
-    }));
-
-    document.getElementById("refreshGuidesButton").addEventListener("click", loadDashboard);
-    document.getElementById("refreshMatchesButton").addEventListener("click", loadMatches);
+    document.getElementById("refreshButton").addEventListener("click", loadAll);
+    els.tier.addEventListener("change", loadAll); els.patch.addEventListener("change", loadAll);
+    document.getElementById("loadMatchesButton").addEventListener("click", loadMatches);
+    document.getElementById("guideSearch").addEventListener("input", event => { state.guideQuery = event.target.value; renderGuides(); });
+    document.querySelectorAll(".guide-filter").forEach(button => button.addEventListener("click", () => { document.querySelectorAll(".guide-filter").forEach(item => item.classList.remove("active")); button.classList.add("active"); state.guideFilter = button.dataset.guideFilter; renderGuides(); }));
+    document.getElementById("reloadGuidesButton").addEventListener("click", loadAll);
+    els.adminButton.addEventListener("click", () => { els.adminTokenInput.value = state.adminToken; els.adminDialog.showModal(); document.body.style.overflow = "hidden"; });
+    document.getElementById("collectHintButton").addEventListener("click", () => { els.collectorDialog.showModal(); document.body.style.overflow = "hidden"; });
     document.getElementById("closeGuideButton").addEventListener("click", () => closeDialog(els.guideDialog));
     document.getElementById("closeAdminButton").addEventListener("click", () => closeDialog(els.adminDialog));
-    els.guideForm.addEventListener("submit", saveGuide);
+    document.getElementById("closeCollectorButton").addEventListener("click", () => closeDialog(els.collectorDialog));
+    document.getElementById("fillAutoGuideButton").addEventListener("click", fillAutoGuide);
     document.getElementById("deleteGuideButton").addEventListener("click", deleteGuide);
+    els.guideForm.addEventListener("submit", saveGuide);
+    document.getElementById("adminForm").addEventListener("submit", async event => { event.preventDefault(); const token = els.adminTokenInput.value.trim(); if (await verifyAdmin(token)) closeDialog(els.adminDialog); });
+    els.adminLogoutButton.addEventListener("click", () => { state.adminToken = ""; state.isAdmin = false; sessionStorage.removeItem(ADMIN_SESSION_KEY); updateAdminUI(); closeDialog(els.adminDialog); showToast("관리자 로그아웃 완료"); });
+    [els.guideDialog, els.adminDialog, els.collectorDialog].forEach(dialog => dialog.addEventListener("click", event => { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDialog(dialog); }));
 
-    els.adminButton.addEventListener("click", () => {
-      els.adminTokenInput.value = state.adminToken; els.adminLogoutButton.hidden = !state.isAdmin; els.adminDialog.showModal(); document.body.style.overflow = "hidden";
-    });
-
-    els.adminForm.addEventListener("submit", async event => {
-      event.preventDefault(); const token = els.adminTokenInput.value.trim(); if (await verifyAdmin(token)) closeDialog(els.adminDialog);
-    });
-
-    els.adminLogoutButton.addEventListener("click", () => {
-      state.adminToken = ""; state.isAdmin = false; sessionStorage.removeItem(ADMIN_SESSION_KEY); els.adminTokenInput.value = ""; updateAdminUI(); closeDialog(els.adminDialog); showToast("관리자 로그아웃 완료");
-    });
-
-    [els.guideDialog, els.adminDialog].forEach(dialog => dialog.addEventListener("click", event => {
-      const rect = dialog.getBoundingClientRect(); const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom; if (outside) closeDialog(dialog);
-    }));
-
-    updateAdminUI();
-    renderChampions();
-    loadDashboard();
-    if (state.adminToken) verifyAdmin(state.adminToken, true);
+    (async function init() {
+      updateAdminUI();
+      try { await loadCatalog(); await loadAll(); if (state.adminToken) verifyAdmin(state.adminToken, true); }
+      catch (error) { console.error(error); setApiState("bad", `초기화 오류: ${error.message}`); document.getElementById("sampleNotice").textContent = `초기화 오류: ${error.message}`; }
+    })();
   </script>
 </body>
 </html>
