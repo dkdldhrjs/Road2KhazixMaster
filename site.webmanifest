@@ -1,0 +1,24 @@
+{
+  "name": "Road2KhazixMaster",
+  "short_name": "R2KM",
+  "description": "카직스 천상계 데이터와 공략을 한곳에 모은 분석 사이트",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#080b12",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
